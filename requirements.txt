@@ -1,0 +1,6 @@
+tables
+zmq
+pymongo
+sympy
+numpy
+WebSockets
