@@ -1,5 +1,6 @@
 tables
 zmq
+h5py
 pymongo
 sympy
 numpy
