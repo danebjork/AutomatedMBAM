@@ -15,6 +15,7 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
@@ -110,6 +111,7 @@ htmlhelp_basename = 'AutomatedMBAMdoc'
 # -- Options for LaTeX output ------------------------------------------------
 
 latex_elements = {
+  'classoptions': ',openany,oneside'
     # The paper size ('letterpaper' or 'a4paper').
     #
     # 'papersize': 'letterpaper',

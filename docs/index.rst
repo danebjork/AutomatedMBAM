@@ -7,8 +7,15 @@ Welcome to AutomatedMBAM's documentation!
 =========================================
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 4
    :caption: Contents:
+
+   Modeling <source/mbam.modeling>
+   Parsing Models <source/mbam.parsing>
+   Evaluating Limits <source/mbam.limits>
+   Running MBAM <source/mbam>
+   Connecting with UI <source/main>
+   Connecting with Julia <source/juliatomongo>
 
 
 

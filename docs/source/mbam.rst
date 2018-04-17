@@ -37,14 +37,6 @@ mbam.iteration module
     :undoc-members:
     :show-inheritance:
 
-mbam.juliatomongo module
-------------------------
-
-.. automodule:: mbam.juliatomongo
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 mbam.mongo module
 -----------------
 
