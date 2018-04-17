@@ -1,0 +1,8 @@
+# Add any directories, files, or patterns you don't want to be tracked by version control
+.*.swp
+*.pyc
+temp.h5
+julia_scripts
+julia_scripts/*
+__pycache__
+.DS_Store
