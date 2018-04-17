@@ -1,0 +1,415 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>MBAM</title>
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"/>
+  <meta http-equiv="Pragma" content="no-cache"/>
+  <meta http-equiv="Expires" content="-1"/>
+  <link rel="stylesheet" href="js/jquery-ui/jquery-ui.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+    <!-- <div class="ui-widget" id="warning">
+    	<div class="ui-state-highlight ui-corner-all" style="padding: 0 .7em;">
+    		<p><span class="ui-icon ui-icon-info" style="margin-top: 2px; float: left; margin-right: .3em;"></span>
+    		<strong>Hey!</strong> Sample ui-state-highlight style.</p>
+    	</div>
+    </div
+    $("#warning").slideToggle("slow");
+    <div class="ui-widget" id="error">
+    	<div class="ui-state-error ui-corner-all" style="padding: 0 .7em;">
+    		<p><span class="ui-icon ui-icon-alert" style="margin-top: 2px;float: left; margin-right: .3em;"></span>
+    		<strong>Alert:</strong> Sample ui-state-error style.</p>
+    	</div>
+    </div>
+    $("#error").slideToggle("slow"); -->
+
+  <!-- <div style="width:100%;" class="container">
+    <div class="row" style="min-height:600px;">
+      <div  style="width:100%; margin: 40px 0 20px;" class="col-sm-6"> -->
+<div id="general-tabs">
+    <ul>
+        <li ><a href="#model-tabs" id="main-model-tab">Model</a></li>
+        <li><a href="#geo-tabs" id="main-geo-tab">Geodesic</a></li>
+        <li><a href="#eval-pane" id="main-eval-tab">Evaluate</a></li>
+    </ul>
+        <!-- Model Input Tab -->
+    <div id="model-tabs" class="main-tab">
+        <ul id="model-tab-list">
+            <li id="model-general-tab"><a href="#model-general" id="model-general-click-tab">General</a></li>
+            <li id="model-data-tab"><a href="#model-data">Data</a></li>
+            <li id="model-parameters-tab"><a href="#model-parameters">Parameters</a></li>
+            <li id="model-variables-tab"><a href="#model-variables">Variables</a></li>
+            <li id="model-ic-tab"><a href="#model-ic">IC</a></li>
+            <li id="model-icd-tab"><a href="#model-icd">IC & ICD</a></li>
+            <li id="model-rhs-tab"><a href="#model-rhs">RHS</a></li>
+            <li id="model-res-tab"><a href="#model-res">RES</a></li>
+            <li id="model-obs-tab"><a href="#model-obs">Observations</a></li>
+            <li id="model-inputs-tab"><a href="#model-inputs">Inputs</a></li>
+            <li id="model-julia-tab"><a href="#model-julia">Julia</a></li>
+            <li id="model-save-tab"><button class="jq-ui-btn" id="save-model-btn">Save Model</button></li>
+        </ul>
+        <!-- Model Tab panes -->
+
+        <!-- MODEL GENERAL TAB -->
+        <div id="model-general">
+
+            <input id="model-id"> </input> <button class="jq-ui-btn" id="model-load"> Load Model ID</button>
+            <h5 style="margin-top:5%;">Model Name</h5>
+            <input id="model-name"> </input>
+            <h5 style="margin-top:5%;">Model Class</h5>
+            <input id="model-class">
+            <div id="general-select"  style="margin-top: 5%; margin-bottom: 5%;">
+                <h5> Select Model Type </h5>
+                <select id="model-type-select">
+                    <option value="" selected disabled hidden>Model Types</option>
+                    <option value="function">Standard Functions</option>
+                    <option value="ODE">ODE</option>
+                    <option value="DAE">DAE</option>
+                </select>
+            </div>
+            <h5>Load Model File</h5>
+            <input id="model-load-btn" type="file"></input>
+            <div id="model-julia-opt" style="border: solid 1px;">
+                <h5>Julia Options</h5>
+                <!-- <button class="jq-ui-btn" id="julia-options">Update Options</button> -->
+                <input type="checkbox" id="model-bare-opt">Include Bare Model</input>
+            </div>
+        </div>
+        <!-- MODEL DATA TAB -->
+        <div id="model-data">
+            <h5>Load Data File</h5>
+            <input id="model-data-btn" type="file"></input>
+            <div id="model-data-graph"></div>
+        </div>
+
+        <!-- MODEL PARAMETERS TAB-->
+        <div id="model-parameters">
+            <div style="margin-top:3%;">
+                <div style="width:50%; display: inline-block;">
+                    <button class="jq-ui-btn" id="model-param-add">Add Parameter</button>
+                    <!-- <input id="model-param-remove-in"></button> -->
+                </div>
+                <div style="width:45%; display: inline-block;">
+                    <button class="jq-ui-btn" id="model-param-remove-btn"> Remove Parameter </button>
+                    <input id="model-param-search" placeholder="Search Name or Index"></input>
+                </div>
+            </div>
+            <div id="model-param" class="model-item">
+                <ul id="model-param-list" class="model-item">
+                </ul>
+            </div>
+        </div>
+        <!-- MODEL VARIABLES TAB -->
+        <div id="model-variables">
+            <div style="margin-top:3%;">
+                <div style="width:50%; display: inline-block;">
+                    <button class="jq-ui-btn" id="model-var-add">Add Variable</button>
+                    <!-- <input id="model-param-remove-in"></button> -->
+                </div>
+                <div style="width:45%; display: inline-block;">
+                    <button class="jq-ui-btn" id="model-var-remove-btn"> Remove Variable </button>
+                    <input id="model-var-search" placeholder="Search Name or Index"></input>
+                </div>
+            </div>
+            <div id="model-var" class="model-item">
+                <ul id="model-var-list" class="model-item">
+                </ul>
+            </div>
+        </div>
+        <div id="model-inputs">
+            <h1>Inputs</h1>
+            <h5>Substitutions (Intermediates)</h5>
+            <textarea id="model-inputs-subs" class="test-overflow" cols="100" rows="8"></textarea>
+            <h5>Equations</h5>
+            <textarea id="model-inputs-eqs" class="test-overflow" cols="100" rows="8"></textarea>
+        </div>
+        <div id="model-ic">
+            <h1>Initial Conditions</h1>
+            <h5>Substitutions (Intermediates)</h5>
+            <textarea id="model-ic-subs" class="test-overflow" cols="100" rows="8"></textarea>
+            <h5>Equations</h5>
+            <textarea id="model-ic-eqs" class="test-overflow" cols="100" rows="8"></textarea>
+        </div>
+        <div id="model-icd">
+            <h1>Initial Conditions</h1>
+            <h5>Substitutions (Intermediates)</h5>
+            <textarea id="model-dae-ic-subs" class="test-overflow" cols="100" rows="8"></textarea>
+            <h5>IC Equations</h5>
+            <textarea id="model-dae-ic-eqs" class="test-overflow" cols="100" rows="8"></textarea>
+            <h5>ICD Equations</h5>
+            <textarea id="model-dae-icd-eqs" class="test-overflow" cols="100" rows="8"></textarea>
+        </div>
+        <div id="model-rhs">
+            <h1>Right Hand Side</h1>
+            <h5>Substitutions (Intermediates)</h5>
+            <textarea id="model-rhs-subs" class="test-overflow" cols="100" rows="8"></textarea>
+            <h5>Equations</h5>
+            <textarea id="model-rhs-eqs" class="test-overflow" cols="100" rows="8"></textarea>
+        </div>
+        <div id="model-res">
+            <h1>Residuals</h1>
+            <h5>Substitutions (Intermediates)</h5>
+            <textarea id="model-res-subs" class="test-overflow" cols="100" rows="8"></textarea>
+            <h5>Equations</h5>
+            <textarea id="model-res-eqs" class="test-overflow" cols="100" rows="8"></textarea>
+        </div>
+        <div id="model-obs">
+            <h1>Observations (Outputs)</h1>
+            <h5>Substitutions (Intermediates)</h5>
+            <textarea id="model-obs-subs" class="test-overflow" cols="100" rows="8"></textarea>
+            <h5>Equations</h5>
+            <textarea id="model-obs-eqs" class="test-overflow" cols="100" rows="8"></textarea>
+        </div>
+        <!-- Julia Model Tab -->
+        <div id="model-julia">
+            <button class="jq-ui-btn" id="model-julia-update" style="margin-top: 2%;"> Update File</button>
+            <div id="model-julia-editor"  class="editor"></div>
+        </div>
+    </div>
+
+    <!-- GEODESIC TABS -->
+    <div id="geo-tabs" class="main-tab">
+        <ul>
+            <li><a href="#geo-general" >General</a></li>
+            <li><a href="#geo-julia">Script</a></li>
+            <li><a  id="geo-graphs-btn" href="#geo-graphs">Graphs</a></li>
+            <li><button class="jq-ui-btn" id="geo-julia-run" >Run Geodesic</button></li>
+            <li><button class="jq-ui-btn" id="geo-julia-end" >End Geodesic</button></li>
+        </ul>
+        <!-- GEO GENERAL TAB -->
+        <div id="geo-general">
+            <h5 style="margin-top:5%;">GEO GENERAL</h5>
+            <button class="jq-ui-btn" id="geo-options" style="margin-top: 2%;">Update Options</button>
+            <div id="geo-options" class="model-item">
+                <ul id="geo-options-list" class="model-item">
+                </ul>
+            </div>
+        </div>
+
+        <!-- Julia Geodesic Tab -->
+        <div id="geo-julia">
+            <button class="jq-ui-btn" id="geo-julia-update" style="margin-top: 2%;"> Update File</button>
+            <div id="geo-julia-editor"  class="editor"></div>
+        </div>
+        <!-- Geodesic Graphs Tab -->
+        <div id="geo-graphs">
+            <div style="overflow: auto;">
+                <div class="row" style="margin:0;">
+                    <div style="width:49%; display: inline-block">
+                            <div id="plot-one"></div>
+                    </div>
+                    <div style="width:49%; display: inline-block">
+                            <div id="plot-two"></div>
+                    </div>
+                </div>
+                <div class="row" style="margin:0;">
+                    <div id="plot-three"></div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="eval-pane">
+        <div id="eval-tabs" class="main-tab">
+            <ul>
+                <li><a href="#eval-parameter">Parameter Substitutions</a></li>
+                <li><a href="#eval-variables">Update Variables</a></li>
+                <li><a href="#eval-equations">Update Equations</a></li>
+                <li><a href="#eval-save">Save</a></li>
+            </ul>
+            <!-- Parameter Tab -->
+            <div id="eval-parameter">
+                <div id="param-titles" class="param-titles">
+                    <div class="param-column-label" style="">
+                        $$ \theta $$
+                    </div>
+                    <div class="param-column-label" style="margin-bottom: 5pt;">
+                        $$ \lim_{\theta \to ?} $$
+                    </div>
+                    <div class="param-column-label">
+                        $$ \tilde{\theta} $$
+                    </div>
+                    <div class="param-column-label" style="width:20%;">
+                        $$ f_{\tilde{\theta}} (\theta) $$
+                    </div>
+                    <button class="jq-ui-btn" id="eval-add-param-btn" class="jq-ui-btn">Add Parameter</button>
+                    <button class="jq-ui-btn" id="eval-param-apply">Apply New Params</button>
+
+                </div>
+                <div id="params-column" class="params-column">
+                    <ul id="param-redef-list" class="params-column">
+                    </ul>
+                </div>
+            </div>
+
+            <div id="eval-variables">
+                <div style="margin-top:3%;">
+                    <div style="width:50%; display: inline-block;">
+                        <button class="jq-ui-btn" id="eval-var-add">Add Variable</button>
+                        <!-- <input id="model-param-remove-in"></button> -->
+                    </div>
+                    <div style="width:45%; display: inline-block;">
+                        <button class="jq-ui-btn" id="eval-var-remove-btn"> Remove Variable </button>
+                        <input id="eval-var-search" placeholder="Search Name or Index"></input>
+                    </div>
+                </div>
+                <div id="eval-var" class="model-item">
+                    <ul id="eval-var-list" class="model-item">
+                    </ul>
+                </div>
+            </div>
+            <div id="eval-save">
+                <input id="eval-model-name"></input>
+                <button class="jq-ui-btn" id="eval-save-btn">Save and Iterate</button>
+            </div>
+            <!-- IC Tab -->
+            <div id="eval-equations">
+                <div style="width:20%; float:left; height:90%;">
+                    <div id="button-filler" style="width:100%; height:10%; text-align:center;" ></div>
+                    <div id="add-btn-list" style="width:100%; height:70%;" >
+                        <ul id="" style="float:left;list-style-type: none; padding: 0px; width:100%;">
+                            <li><button style="width:96%; margin: 2%;" id="eval-add-ic-btn" class="jq-ui-btn">Add IC</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-add-icd-btn" class="jq-ui-btn">Add ICD</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-add-rhs-btn" class="jq-ui-btn">Add RHS</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-add-res-btn" class="jq-ui-btn">Add RES</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-add-obs-btn" class="jq-ui-btn">Add Obs</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-add-input-btn" class="jq-ui-btn">Add Input</button></li>
+                        </ul>
+                    </div>
+                    <div id="latex-label" style="width:100%; height:25%;" >
+                        <h3>LaTeX</h3>
+                    </div>
+                </div>
+                <div style="width:55%; float:left; height:90%;">
+                    <div id="eval-workspace" style="width:100%; height:10%;text-align:center;" >
+                        <button id="substitute-btn" style="margin: 2%;" class="jq-ui-btn">Sub New Params</button>
+                        <button id="undo-btn"  style="margin: 2%;" class="jq-ui-btn">Undo</button>
+                        <button id="simplify-btn"  style="margin: 2%;" class="jq-ui-btn">Simplify</button>
+                        <button id="epsilon-btn"  style="margin: 2%;" class="jq-ui-btn">Test Eps -> 0</button>
+                        <!-- <button id="export-btn" class="jq-ui-btn">Export as Equation</button> -->
+                    </div>
+                    <div id="eval-workspace" style="width:100%; height:70%;" >
+                        <textarea id="workspace" style="height:90%; width:100%;"></textarea>
+                    </div>
+                    <div id="latex-space" style="width:100%; height:25%;" >
+                    </div>
+                </div>
+                <div style="width:20%; float:left; height:90%; ">
+                    <div id="button-filler" style="width:100%; height:10%; text-align:center;" ></div>
+                    <div id="add-btn-list" style="width:100%; height:70%;" >
+                        <ul id="" style="float:left;list-style-type: none; padding: 0px; width:100%;">
+                            <li><button style="width:96%; margin: 2%;" id="eval-export-ic-btn" class="jq-ui-btn">Export as IC</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-export-icd-btn" class="jq-ui-btn">Export as ICD</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-export-rhs-btn" class="jq-ui-btn">Export as RHS</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-export-res-btn" class="jq-ui-btn">Export as RES</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-export-obs-btn" class="jq-ui-btn">Export as Obs</button></li>
+                            <li><button style="width:96%; margin: 2%;" id="eval-export-input-btn" class="jq-ui-btn">Export as Input</button></li>
+                        </ul>
+                    </div>
+                    <div id="add-btn-list" style="width:100%; height:25%;" >
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="clearfix"></div>
+</div>
+</div>
+
+<!-- ADD PARAMETER MODAL -->
+  <div id="model-param-dialog" title="Add a New Parameter" style="overflow: hidden;">
+    <form style="margin-top:2%;">
+      <fieldset style="border-style: none;">
+        <label for="new-param-name" style="margin:1%; width:31%; float:left;text-align:center;">Name</label>
+        <label for="new-param-transform" style="margin:1%; width:31%; float:left;text-align:center;">Transformation</label>
+        <label for="new-param-init-val" style="margin:1%; width:31%; float:left; text-align:center;">Initial Value</label>
+        <input type="text" name="new-param-name" id="new-param-name" style="width:31%; float:left; margin:1%; " class="text ui-widget-content ui-corner-all">
+        <select name="new-param-transform" id="new-param-transform" style="width:31%; float:left; margin:1%; ">
+            <option value="identity">identity</option>
+            <option value="constant">constant</option>
+            <option value="log">log</option>
+            <option value="sinh">sinh</option>
+        </select>
+        <input type="text" name="new-param-init-val" id="new-param-init-val" value="" style="margin:1%; width:31%; float:left;" class="text ui-widget-content ui-corner-all">
+
+        <!-- Allow form submission with keyboard without duplicating the dialog button -->
+        <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+      </fieldset>
+    </form>
+  </div>
+
+  <!-- ADD VARIABLE MODAL -->
+    <div id="model-var-dialog" title="Add a New Variable" style="overflow:hidden;">
+      <form style="margin-top:2%;">
+        <fieldset style="border-style: none;">
+          <label for="new-var-name" style="margin:1%; width:48%; float:left;text-align:center;">Name</label>
+          <label for="new-var-type" style="margin:1%; width:48%; float:left;text-align:center;">Type</label>
+          <input type="text" name="new-var-name" id="new-var-name" style="width:48%; float:left; margin:1%; " class="text ui-widget-content ui-corner-all">
+          <select name="new-var-type" id="new-var-type" style="width:48%; float:left; margin:1%; ">
+              <option value="algebraic">algebraic</option>
+              <option value="dynamic">dynamic</option>
+          </select>
+          <!-- Allow form submission with keyboard without duplicating the dialog button -->
+          <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+        </fieldset>
+      </form>
+    </div>
+
+    <!-- ADD Equation MODAL -->
+      <div id="eval-eq-dialog" title="Select Equations">
+        <form style="margin-top:2%;">
+          <fieldset style="border-style: none;">
+              <div style="height:100%; width:100%; overflow:auto;">
+                <h5> Substitutions </h5>
+                <ul id="eval-add-dialog-subs" style="list-style-type: none; padding: 0px;">
+                </ul>
+                <h5> Equations </h5>
+                <ul id="eval-add-dialog-eqs" style="list-style-type: none; padding: 0px;">
+                </ul>
+            </div>
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+          </fieldset>
+        </form>
+      </div>
+
+      <!-- EXPORT Equation MODAL -->
+        <div id="eval-export-eq-dialog" title="Select Equations">
+          <form style="margin-top:2%;">
+            <fieldset style="border-style: none;">
+                <div style="height:100%; width:100%; overflow:auto;">
+                  <h5> Substitutions </h5>
+                  <ul id="eval-export-dialog-subs" style="list-style-type: none; padding: 0px;">
+                  </ul>
+                  <h5> Equations </h5>
+                  <ul id="eval-export-dialog-eqs" style="list-style-type: none; padding: 0px;">
+                  </ul>
+              </div>
+              <!-- Allow form submission with keyboard without duplicating the dialog button -->
+              <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+            </fieldset>
+          </form>
+        </div>
+
+  <footer class="footer" >
+    <hr/>
+    MBAM Automation Framework.
+  </footer>
+  <script src="js/jquery-2.1.1.min.js"></script>
+  <script src="js/jquery-ui/jquery-ui.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/plotly-latest.min.js"></script>
+  <script src="ace/src-min/ace.js" type="text/javascript" charset="utf-8"></script>
+  <script src="js/MathJax/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+  <script src="js/modeltab.js"></script>
+  <script src="js/geograph.js"></script>
+  <script src="js/geotab.js"></script>
+  <script src="js/equations.js"></script>
+  <script src="js/evaltab.js"></script>
+  <script src="js/workspace.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
