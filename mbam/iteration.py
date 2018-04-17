@@ -109,16 +109,23 @@ class Iteration:
         ----------
         options : ``dict``
             options = {
+
                 "tmax": ``float``,
+
                 "lambda": ``float``,
+
                 "abstol": ``float``,
+
                 "reltol": ``float``,
+
                 "use_svd": ``bool``,
+
                 "use_pinv": ``bool``,
+                
             }
+
         """
         self.geo_parser.update_options(options)
-        # update in database
 
     def update_julia_script(self, script):
         """Overwrite the current julia model script.

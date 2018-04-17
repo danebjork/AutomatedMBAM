@@ -1,0 +1,578 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mbam.mongo &mdash; AutomatedMBAM 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="AutomatedMBAM 1.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> AutomatedMBAM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">AutomatedMBAM</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>mbam.mongo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mbam.mongo</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">A custom client for connecting to MongoDB and managing the data flow</span>
+<span class="sd">for MBAM. Six collections are used in the database &#39;mbam&#39;:</span>
+
+<span class="sd">geos: geodesic storage.</span>
+<span class="sd">models: model storage.</span>
+<span class="sd">model_data: the data read in the hdf5 files. Used in models.</span>
+<span class="sd">iters: successful MBAM iteration storage.</span>
+<span class="sd">temp_key: the key for navigating limit templates.</span>
+<span class="sd">temps: limit template storage.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">pymongo</span> <span class="k">import</span> <span class="n">MongoClient</span>
+<span class="kn">from</span> <span class="nn">bson.objectid</span> <span class="k">import</span> <span class="n">ObjectId</span>
+
+<div class="viewcode-block" id="MMongo"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo">[docs]</a><span class="k">class</span> <span class="nc">MMongo</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Starts the client, connects to the &#39;mbam&#39; database and creates</span>
+<span class="sd">        shortcuts to the collections.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">MongoClient</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">db</span> <span class="o">=</span> <span class="n">client</span><span class="p">[</span><span class="s1">&#39;mbam&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geo</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="s1">&#39;geos&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="s1">&#39;models&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="s1">&#39;model_data&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="s1">&#39;iters&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temp_key</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="s1">&#39;temp_key&#39;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">temps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">db</span><span class="p">[</span><span class="s1">&#39;temps&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="MMongo.update_temp_key"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.update_temp_key">[docs]</a>    <span class="k">def</span> <span class="nf">update_temp_key</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Overwrites the current template key with the given `key`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key : ``dict``</span>
+<span class="sd">            A dictionary of the format: {&quot;limit_type&quot;: &quot;index in key&quot;}</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        key = {&quot;zero&quot;: 0, &quot;inf&quot;: 1}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_key</span><span class="o">.</span><span class="n">find</span><span class="p">({})</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">temp_key</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">temp_key</span><span class="o">.</span><span class="n">find_one_and_replace</span><span class="p">({},</span> <span class="n">key</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MMongo.get_temp_key"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.get_temp_key">[docs]</a>    <span class="k">def</span> <span class="nf">get_temp_key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        key : ``dict``</span>
+<span class="sd">            A dictionary of the format: {&quot;limit_type&quot;: &quot;index in key&quot;}</span>
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        key = {&quot;zero&quot;: 0, &quot;inf&quot;: 1}</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_key</span><span class="o">.</span><span class="n">find_one</span><span class="p">({},</span> <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="MMongo.save_temp"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.save_temp">[docs]</a>    <span class="k">def</span> <span class="nf">save_temp</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves a single template in the database.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        temp : ``dict``</span>
+<span class="sd">            A template dictionary.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        template = {&#39;key&#39;: [0, 1], &#39;template&#39;: &#39;1/inf_1&#39;, &#39;label&#39;: &#39;epsilon&#39;,</span>
+<span class="sd">        &#39;class&#39;: &#39;michaelis-menten&#39; }</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">test</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;key&quot;</span><span class="p">:</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;key&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;template&quot;</span><span class="p">:</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;template&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">temp</span><span class="p">[</span><span class="s2">&quot;class&quot;</span><span class="p">]</span>
+            <span class="p">}</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">temps</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">test</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">temps</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MMongo.save_temps"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.save_temps">[docs]</a>    <span class="k">def</span> <span class="nf">save_temps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">temp_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Saves a list of templates in the database.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        temp : ``list``</span>
+<span class="sd">            A list of template dictionaries.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        temp_list = [{&#39;key&#39;: [0, 1], &#39;template&#39;: &#39;1/inf_1&#39;, &#39;label&#39;: &#39;epsilon&#39;,</span>
+<span class="sd">            &#39;class&#39;: &#39;michaelis-menten&#39; }]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># use key to see if already in collection</span>
+        <span class="c1"># if it is, update the list</span>
+        <span class="c1"># otherwise, add it to the collection</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">temp_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_temp</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
+        <span class="c1"># self.temps.insert_many(temp_list)</span>
+
+<div class="viewcode-block" id="MMongo.load_templates"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.load_templates">[docs]</a>    <span class="k">def</span> <span class="nf">load_templates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">clss</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Loads all limit templates and filters them by `key` and `clss`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        key :  ``list`` or ``tuple`` of ``int``</span>
+<span class="sd">            A list or tuple of ints defining how many of each limit type</span>
+<span class="sd">            occurs within a template.</span>
+<span class="sd">        clss : ``str``</span>
+<span class="sd">            A string used to define the model class that is going to use</span>
+<span class="sd">            the templates.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list : ``list``</span>
+<span class="sd">            A list of dictionary templates after filtering by key and class.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        Model classes are user defined, just be consistent.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">to_ret</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;eps&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;finite&quot;</span><span class="p">:</span> <span class="p">[],</span>
+        <span class="p">}</span>
+        <span class="k">if</span> <span class="n">clss</span><span class="p">:</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temps</span><span class="o">.</span><span class="n">find</span><span class="p">({</span><span class="s2">&quot;class&quot;</span><span class="p">:</span> <span class="n">clss</span><span class="p">},</span> <span class="p">{</span> <span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temps</span><span class="o">.</span><span class="n">find</span><span class="p">({},</span> <span class="p">{</span> <span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">curr</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">curr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">temps</span><span class="o">.</span><span class="n">find</span><span class="p">({},</span> <span class="p">{</span> <span class="s1">&#39;_id&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">curr</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">temp_key_filter</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;key&#39;</span><span class="p">]):</span>
+                <span class="k">if</span> <span class="n">c</span><span class="p">[</span><span class="s1">&#39;label&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;epsilon&quot;</span><span class="p">:</span>
+                    <span class="n">to_ret</span><span class="p">[</span><span class="s1">&#39;eps&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">to_ret</span><span class="p">[</span><span class="s1">&#39;finite&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+        <span class="c1"># print(&quot;TEMPLATES&quot;, to_ret)</span>
+        <span class="k">return</span> <span class="n">to_ret</span></div>
+
+<div class="viewcode-block" id="MMongo.temp_key_filter"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.temp_key_filter">[docs]</a>    <span class="k">def</span> <span class="nf">temp_key_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">curr_key</span><span class="p">,</span> <span class="n">temp_key</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns true if `curr_key[i]` &lt; `temp_key[i]` for all i.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        curr_key :  ``list`` or ``tuple`` of ``int``</span>
+<span class="sd">            A list or tuple of ints defining how many of each limit type</span>
+<span class="sd">            occurs within the current limit.</span>
+<span class="sd">        temp_key :  ``list`` or ``tuple`` of ``int``</span>
+<span class="sd">            A list or tuple of ints defining how many of each limit type</span>
+<span class="sd">            occurs within a queried template.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        valid : ``bool``</span>
+<span class="sd">            True if the queried template is functional with the current limit.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">curr_key</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">curr_key</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">temp_key</span><span class="p">):</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;temp_key needs updating!</span><span class="se">\n</span><span class="s2"> NO FILTER APPLIED!&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">curr_key</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="n">temp_key</span><span class="p">[</span><span class="n">i</span><span class="p">]:</span>
+                    <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="MMongo.query_geodesic"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.query_geodesic">[docs]</a>    <span class="k">def</span> <span class="nf">query_geodesic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geo_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        geo_id : ``str``</span>
+<span class="sd">            The ID for the geodesic to query.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geo_data : ``dict``</span>
+<span class="sd">            The data queried from the current geodesic, excluding its ID.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">geo_id</span><span class="p">)},</span> <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="MMongo.push_geodesic"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.push_geodesic">[docs]</a>    <span class="k">def</span> <span class="nf">push_geodesic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geo_id</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Append new geodesic data to the end of the current geodesic data.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        geo_id : ``str``</span>
+<span class="sd">            The ID for the geodesic to add the data to.</span>
+<span class="sd">        data : ``dict``</span>
+<span class="sd">            The dictionary of new data to be appended to the current geodesic.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">push</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;t&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">&quot;tau&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;tau&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span>
+            <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="n">data</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">],</span>
+            <span class="c1"># &quot;j&quot;: data[&quot;j&quot;],</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">update_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">geo_id</span><span class="p">)},</span> <span class="p">{</span><span class="s2">&quot;$push&quot;</span><span class="p">:</span> <span class="n">push</span><span class="p">})</span></div>
+
+<div class="viewcode-block" id="MMongo.init_geodesic"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.init_geodesic">[docs]</a>    <span class="k">def</span> <span class="nf">init_geodesic</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates a new geodesic object inside MongoDB.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        geo_id : ``str``</span>
+<span class="sd">            The string representation of the new geodesic.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># &quot;name&quot;: self.model_name,</span>
+            <span class="s2">&quot;t&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;tau&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;v&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;x&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="c1"># &quot;j&quot;: [],</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">post</span><span class="p">)</span><span class="o">.</span><span class="n">inserted_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MMongo.finish_geodesic"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.finish_geodesic">[docs]</a>    <span class="k">def</span> <span class="nf">finish_geodesic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geo_id</span><span class="p">,</span> <span class="n">exception</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Marks the geodesic as &#39;done&#39; inside MongoDB.</span>
+
+<span class="sd">        This allows the object waiting for the geodesic to finish to know</span>
+<span class="sd">        it has completed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">exception</span><span class="p">:</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="s2">&quot;excpetion&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">done</span> <span class="o">=</span> <span class="s2">&quot;done&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">geo</span><span class="o">.</span><span class="n">update_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="n">ObjectId</span><span class="p">(</span><span class="n">geo_id</span><span class="p">)},</span> <span class="p">{</span><span class="s2">&quot;$set&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;done&quot;</span><span class="p">:</span> <span class="n">done</span><span class="p">}})</span></div>
+
+<div class="viewcode-block" id="MMongo.get_hasse_children"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.get_hasse_children">[docs]</a>    <span class="k">def</span> <span class="nf">get_hasse_children</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns the length of a model&#39;s successful iterations.</span>
+
+<span class="sd">        Is used to create a unique name for several models with the same parent</span>
+<span class="sd">        model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model_id : ``str``</span>
+<span class="sd">            The id for the parent model.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        len_to_iter : ``int``</span>
+<span class="sd">            The total number of children the parent model already has.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">model_id</span><span class="p">)})[</span><span class="s1">&#39;to_iter&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="MMongo.push_model_to_iter"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.push_model_to_iter">[docs]</a>    <span class="k">def</span> <span class="nf">push_model_to_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">iter_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add the successful iteration id to the parent model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model_id : ``str``</span>
+<span class="sd">            The id for the parent model.</span>
+<span class="sd">        iter_id : ``str``</span>
+<span class="sd">            The id for the successful iteration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">find_one_and_update</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">model_id</span><span class="p">)},</span> <span class="p">{</span><span class="s2">&quot;$addToSet&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;to_iter&quot;</span><span class="p">:</span> <span class="n">iter_id</span><span class="p">}})</span></div>
+
+<div class="viewcode-block" id="MMongo.push_model_from_iter"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.push_model_from_iter">[docs]</a>    <span class="k">def</span> <span class="nf">push_model_from_iter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id</span><span class="p">,</span> <span class="n">iter_id</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add the successful iteration id to the child model.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model_id : ``str``</span>
+<span class="sd">            The id for the child model.</span>
+<span class="sd">        iter_id : ``str``</span>
+<span class="sd">            The id for the successful iteration.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">find_one_and_update</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">model_id</span><span class="p">)},</span> <span class="p">{</span><span class="s2">&quot;$addToSet&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;from_iter&quot;</span><span class="p">:</span> <span class="n">iter_id</span><span class="p">}})</span></div>
+
+<div class="viewcode-block" id="MMongo.save_iteration"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.save_iteration">[docs]</a>    <span class="k">def</span> <span class="nf">save_iteration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">iteration</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add the successful iteration to the database.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        iteration : ``dict``</span>
+<span class="sd">            All data corresponding to the iteration.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        iter_id : ``str``</span>
+<span class="sd">            The id generated by MongoDB. Used to udpate parent/child models.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">iters</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">iteration</span><span class="p">)</span><span class="o">.</span><span class="n">inserted_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MMongo.save_model"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.save_model">[docs]</a>    <span class="k">def</span> <span class="nf">save_model</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mbam_model</span><span class="p">,</span> <span class="n">data_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mbam_model : ``mbammodel``</span>
+<span class="sd">            The model object to be saved.</span>
+<span class="sd">        data_id : ``str``</span>
+<span class="sd">            The id of the saved data in the database. Used to connect the model</span>
+<span class="sd">            to its data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># write model to db</span>
+        <span class="n">to_save</span> <span class="o">=</span> <span class="n">mbam_model</span><span class="o">.</span><span class="n">str_dict</span>
+        <span class="n">to_save</span><span class="p">[</span><span class="s1">&#39;to_iter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">to_save</span><span class="p">[</span><span class="s1">&#39;from_iter&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">to_save</span><span class="p">[</span><span class="s1">&#39;data_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">data_id</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">to_save</span><span class="p">)</span><span class="o">.</span><span class="n">inserted_id</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MMongo.save_model_data"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.save_model_data">[docs]</a>    <span class="k">def</span> <span class="nf">save_model_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_json</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_json : ``dict``</span>
+<span class="sd">            The HDF5 data to be saved inside the database.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data_id : ``str``</span>
+<span class="sd">            The id generated by MongoDB while saving the data.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">insert_one</span><span class="p">(</span><span class="n">data_json</span><span class="p">)</span><span class="o">.</span><span class="n">inserted_id</span><span class="p">)</span></div>
+
+    <span class="c1"># def load_model(self, model_name):</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     &quot;&quot;&quot;</span>
+    <span class="c1">#     # return  model_dict with corresponding name</span>
+    <span class="c1">#     pass</span>
+
+<div class="viewcode-block" id="MMongo.load_model_id"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.load_model_id">[docs]</a>    <span class="k">def</span> <span class="nf">load_model_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_id_str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Retrieves a model from the database with the given id.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model_id_str : ``str``</span>
+<span class="sd">            The model id to query.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        model_dict : ``dict``</span>
+<span class="sd">            The model and data (if exists) connected to the given id.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">to_ret</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="nb">filter</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;to_iter&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;from_iter&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="n">to_ret</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">model_id_str</span><span class="p">)},</span> <span class="nb">filter</span><span class="p">)</span>
+        <span class="n">to_ret</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;data_id&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">to_ret</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;data_id&quot;</span><span class="p">])</span>
+        <span class="n">data_id</span> <span class="o">=</span> <span class="n">to_ret</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">][</span><span class="s2">&quot;data_id&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">data_id</span> <span class="o">!=</span> <span class="s2">&quot;None&quot;</span><span class="p">:</span>
+            <span class="n">to_ret</span><span class="p">[</span><span class="s2">&quot;data&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_data_id</span><span class="p">(</span><span class="n">data_id</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">to_ret</span></div>
+
+<div class="viewcode-block" id="MMongo.load_data_id"><a class="viewcode-back" href="../../source/mbam.html#mbam.mongo.MMongo.load_data_id">[docs]</a>    <span class="k">def</span> <span class="nf">load_data_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_id_str</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        data_id_str : ``str``</span>
+<span class="sd">            The id for the data object to find.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        data : ``dict``</span>
+<span class="sd">            The dictionary containing all the data found in the database.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="n">ObjectId</span><span class="p">(</span><span class="n">data_id_str</span><span class="p">)},</span> <span class="p">{</span><span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">})</span>
+        <span class="k">return</span> <span class="n">data</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dane Bjork.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

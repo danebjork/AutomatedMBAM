@@ -46,14 +46,23 @@ class GeodesicParser:
         ----------
         options : ``dict``
             Must follow format:
+
             {
+
                 "tmax": ``float``,
+
                 "lambda": ``float``,
+
                 "abstol": ``float``,
+
                 "reltol": ``float``,
+
                 "use_svd": ``bool``,
+
                 "use_pinv": ``bool``,
+                
             }
+
         """
         self.options = options
         self.write_geo_script()

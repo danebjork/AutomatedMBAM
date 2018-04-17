@@ -1,0 +1,272 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mbam.parsing.function &mdash; AutomatedMBAM 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="AutomatedMBAM 1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AutomatedMBAM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AutomatedMBAM</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>mbam.parsing.function</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mbam.parsing.function</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">sympy.printing</span> <span class="k">import</span> <span class="n">julia_code</span>
+<span class="kn">from</span> <span class="nn">.basediff</span> <span class="k">import</span> <span class="n">BaseDiffParser</span>
+
+<div class="viewcode-block" id="FunctionParser"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.function.FunctionParser">[docs]</a><span class="k">class</span> <span class="nc">FunctionParser</span><span class="p">(</span><span class="n">BaseDiffParser</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Used for parsing models composed of simple algebraic functions.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mbam_model</span><span class="p">,</span> <span class="n">data_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mbam_model : ``mbammodel``</span>
+<span class="sd">            Can be any of the following: Function, ODE, DAE.</span>
+<span class="sd">        data_path : ``str``</span>
+<span class="sd">            The full path to the hdf5 file to be included in the</span>
+<span class="sd">            model.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">mbam_model</span><span class="p">,</span> <span class="n">data_path</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_script</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">script</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FunctionParser.write_script"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.function.FunctionParser.write_script">[docs]</a>    <span class="k">def</span> <span class="nf">write_script</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_imports</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_params</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_inputs</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_f</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_data</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_model</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_constants</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_param_transforms</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="s1">&#39;model = Models.Model(parametricmodel)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="s1">&#39;bare&#39;</span><span class="p">]:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\n\n</span><span class="s1">&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_bare_model</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="s1">&#39;xi = ParametricModels.xvalues(parametricmodel)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="s1">&#39;end # module&#39;</span></div>
+
+<div class="viewcode-block" id="FunctionParser.write_f"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.function.FunctionParser.write_f">[docs]</a>    <span class="k">def</span> <span class="nf">write_f</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="s1">&#39;function f{T&lt;:Real}(ps::</span><span class="si">%s{T}</span><span class="s1">, t)</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">_inp = inp(ps, t)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_substitutions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="o">.</span><span class="n">model_eqs</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sbs_sym_list</span><span class="p">)</span>
+        <span class="c1">### WRITE OWN EQUATION FUNCTION ###</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_equation_return</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="o">.</span><span class="n">model_eqs</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">eqs_sym_list</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="FunctionParser.write_bare_model"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.function.FunctionParser.write_bare_model">[docs]</a>    <span class="k">def</span> <span class="nf">write_bare_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;zerodata = ParametricModels.OLSData(&quot;</span><span class="si">%s</span><span class="s1">&quot;_zero, zeros(ydata))</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;bareparametricmodel = @ParametricModels.ParametricModel(zerodata, </span><span class="si">%s</span><span class="s1">, ic, f, (_t,), Tuple{Symbol, Any}[])</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">write_param_transforms</span><span class="p">(</span><span class="n">bare</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;modelbare = Models.Model(bareparametricmodel)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="FunctionParser.write_model"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.function.FunctionParser.write_model">[docs]</a>    <span class="k">def</span> <span class="nf">write_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;parametricmodel = @ParametricModels.ParametricModel(data, </span><span class="si">%s</span><span class="s1">, f, (_t,), Tuple{Symbol, Any}[])</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dane Bjork.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

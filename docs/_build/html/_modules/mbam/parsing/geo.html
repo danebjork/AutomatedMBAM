@@ -1,0 +1,367 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mbam.parsing.geo &mdash; AutomatedMBAM 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="AutomatedMBAM 1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AutomatedMBAM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AutomatedMBAM</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>mbam.parsing.geo</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mbam.parsing.geo</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="c1">### ALL JULIA SCRIPTS ONLY USE &quot; &quot; FOR STRINGS, SO USE &#39; &#39; FOR PYTHON PARSING TO JULIA.</span>
+<div class="viewcode-block" id="GeodesicParser"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser">[docs]</a><span class="k">class</span> <span class="nc">GeodesicParser</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mbam_model</span><span class="p">,</span> <span class="n">model_path</span><span class="p">,</span> <span class="n">collector_path</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        mbam_model : ``mbammodel``</span>
+<span class="sd">            Can be any of the following: Function, ODE, DAE.</span>
+<span class="sd">        model_path : ``str``</span>
+<span class="sd">            The full path to the corresponding julia model file.</span>
+<span class="sd">        collector_path : ``str``</span>
+<span class="sd">            Full path to &#39;geosender.jl&#39; for sending the data to MongoDB.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_path</span> <span class="o">=</span> <span class="n">model_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mm</span> <span class="o">=</span> <span class="n">mbam_model</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">collector_path</span> <span class="o">=</span> <span class="n">collector_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">default_options</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;julia_scripts&quot;</span><span class="p">,</span> <span class="s2">&quot;geos&quot;</span><span class="p">)</span>
+        <span class="c1"># self.dir = &quot;julia_scripts&quot;</span>
+        <span class="c1"># Need to figure out naming convention for several models of same type &amp; param num</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mm</span><span class="o">.</span><span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;.jl&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dir</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">file_name</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_geo_script</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">script</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GeodesicParser.default_options"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.default_options">[docs]</a>    <span class="k">def</span> <span class="nf">default_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Used until options are updated with update_options</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;tmax&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s2">&quot;lambda&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+            <span class="s2">&quot;abstol&quot;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+            <span class="s2">&quot;reltol&quot;</span><span class="p">:</span> <span class="mf">1e-3</span><span class="p">,</span>
+            <span class="s2">&quot;use_svd&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="s2">&quot;use_pinv&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="p">}</span></div>
+
+<div class="viewcode-block" id="GeodesicParser.update_options"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.update_options">[docs]</a>    <span class="k">def</span> <span class="nf">update_options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Creates and saves a new script generated with the given options.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        options : ``dict``</span>
+<span class="sd">            Must follow format:</span>
+
+<span class="sd">            {</span>
+
+<span class="sd">                &quot;tmax&quot;: ``float``,</span>
+
+<span class="sd">                &quot;lambda&quot;: ``float``,</span>
+
+<span class="sd">                &quot;abstol&quot;: ``float``,</span>
+
+<span class="sd">                &quot;reltol&quot;: ``float``,</span>
+
+<span class="sd">                &quot;use_svd&quot;: ``bool``,</span>
+
+<span class="sd">                &quot;use_pinv&quot;: ``bool``,</span>
+<span class="sd">                </span>
+<span class="sd">            }</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write_geo_script</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">script</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GeodesicParser.init_geos_dir"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.init_geos_dir">[docs]</a>    <span class="k">def</span> <span class="nf">init_geos_dir</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dir</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GeodesicParser.save_to_file"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.save_to_file">[docs]</a>    <span class="k">def</span> <span class="nf">save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">script</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">init_geos_dir</span><span class="p">()</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">file_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">jl</span><span class="p">:</span>
+            <span class="n">jl</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">script</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GeodesicParser.write_geo_script"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.write_geo_script">[docs]</a>    <span class="k">def</span> <span class="nf">write_geo_script</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_script</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">geo_loop</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">script</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">end_script</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="GeodesicParser.init_script"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.init_script">[docs]</a>    <span class="k">def</span> <span class="nf">init_script</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="s1">&#39;module T</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;import Models</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;import Geometry</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;include(&quot;</span><span class="si">{0}</span><span class="s1">&quot;)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_path</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;include(&quot;</span><span class="si">{0}</span><span class="s1">&quot;)</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">collector_path</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;model = </span><span class="si">{0}</span><span class="s1">_Model.model</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;xi = </span><span class="si">{0}</span><span class="s1">_Model.xi</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;v = Geometry.Geodesics.vi(xi, model.jacobian, model.Avv)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="c1"># Add function to include options here in integrator</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;integrator = Models.GeodesicIntegrator(model, xi, v, &#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_options</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;)</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;start = Dict(&quot;x&quot;=&gt; [], &quot;v&quot;=&gt; [], &quot;tau&quot;=&gt; [], &quot;t&quot;=&gt; [], &quot;j&quot;=&gt;[])</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="c1"># ret += &#39;GeoSender.send_to_py(&quot;start&quot;, start)\n&#39;</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="GeodesicParser.load_options"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.load_options">[docs]</a>    <span class="k">def</span> <span class="nf">load_options</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">to_ret</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">opt</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">):</span>
+            <span class="n">to_ret</span> <span class="o">+=</span> <span class="n">opt</span>
+            <span class="n">to_ret</span> <span class="o">+=</span> <span class="s2">&quot;=&quot;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">opt</span><span class="p">],</span> <span class="nb">bool</span><span class="p">)):</span>
+                <span class="k">if</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">opt</span><span class="p">]):</span>
+                    <span class="n">to_ret</span> <span class="o">+=</span> <span class="s2">&quot;true&quot;</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">to_ret</span> <span class="o">+=</span> <span class="s2">&quot;false&quot;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">to_ret</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">[</span><span class="n">opt</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="n">to_ret</span> <span class="o">+=</span> <span class="s2">&quot;, &quot;</span>
+        <span class="k">return</span> <span class="n">to_ret</span></div>
+
+
+<div class="viewcode-block" id="GeodesicParser.geo_loop"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.geo_loop">[docs]</a>    <span class="k">def</span> <span class="nf">geo_loop</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="s1">&#39;try</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">while true</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">Geometry.Geodesics.step!(integrator)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">sol = Geometry.Geodesics.solution(integrator)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">j = model.jacobian(sol.xs[end, :])</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">update = Dict(</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t</span><span class="s1">&quot;x&quot;=&gt;sol.xs[end, :],</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t</span><span class="s1">&quot;v&quot;=&gt;sol.vs[end, :],</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t</span><span class="s1">&quot;tau&quot;=&gt;sol.τs[end, :],</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t</span><span class="s1">&quot;t&quot;=&gt;sol.ts[end, :],</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t</span><span class="s1">&quot;j&quot;=&gt;j,</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">push = false</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">while !push</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t</span><span class="s1">try</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t\t</span><span class="s1">GeoSender.send_to_py(update)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t\t</span><span class="s1">push = true</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t</span><span class="s1">catch</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t\t</span><span class="s1">sleep(.4)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t\t</span><span class="s1">end</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t\t</span><span class="s1">end</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">end</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="k">return</span> <span class="n">ret</span></div>
+
+<div class="viewcode-block" id="GeodesicParser.end_script"><a class="viewcode-back" href="../../../source/mbam.parsing.html#mbam.parsing.geo.GeodesicParser.end_script">[docs]</a>    <span class="k">def</span> <span class="nf">end_script</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="s1">&#39;catch E</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="c1"># ret += &#39;\tGeoSender.send_to_py(&quot;end&quot;, Dict())\n&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">println(E)</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">GeoSender.send_to_py(Dict(&quot;done&quot;=&gt; &quot;except&quot;))</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;end</span><span class="se">\n</span><span class="s1">&#39;</span>
+        <span class="n">ret</span> <span class="o">+=</span> <span class="s1">&#39;end # module&#39;</span>
+        <span class="k">return</span> <span class="n">ret</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dane Bjork.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

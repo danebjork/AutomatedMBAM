@@ -1,0 +1,1531 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mbam package &mdash; AutomatedMBAM 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="AutomatedMBAM 1.0 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AutomatedMBAM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">mbam package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-mbam.engine">mbam.engine module</a></li>
+<li><a class="reference internal" href="#module-mbam.geodesic">mbam.geodesic module</a></li>
+<li><a class="reference internal" href="#module-mbam.iteration">mbam.iteration module</a></li>
+<li><a class="reference internal" href="#module-mbam.juliatomongo">mbam.juliatomongo module</a></li>
+<li><a class="reference internal" href="#module-mbam.mongo">mbam.mongo module</a></li>
+<li><a class="reference internal" href="#module-mbam.ui">mbam.ui module</a></li>
+<li><a class="reference internal" href="#module-mbam">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutomatedMBAM</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>mbam package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/source/mbam.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mbam-package">
+<h1>mbam package<a class="headerlink" href="#mbam-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mbam.limits.html">mbam.limits package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mbam.limits.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.limits.html#module-mbam.limits.reparameterize">mbam.limits.reparameterize module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.limits.html#module-mbam.limits.singular_limit">mbam.limits.singular_limit module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.limits.html#module-mbam.limits">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mbam.modeling.html">mbam.modeling package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mbam.modeling.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.modeling.html#module-mbam.modeling.data">mbam.modeling.data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.modeling.html#module-mbam.modeling.elements">mbam.modeling.elements module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.modeling.html#module-mbam.modeling.hdf5tojson">mbam.modeling.hdf5tojson module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.modeling.html#module-mbam.modeling.models">mbam.modeling.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.modeling.html#module-mbam.modeling">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="mbam.parsing.html">mbam.parsing package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="mbam.parsing.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.parsing.html#module-mbam.parsing.base">mbam.parsing.base module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.parsing.html#module-mbam.parsing.basediff">mbam.parsing.basediff module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.parsing.html#module-mbam.parsing.dae">mbam.parsing.dae module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.parsing.html#module-mbam.parsing.function">mbam.parsing.function module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.parsing.html#module-mbam.parsing.geo">mbam.parsing.geo module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.parsing.html#module-mbam.parsing.ode">mbam.parsing.ode module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mbam.parsing.html#module-mbam.parsing">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-mbam.engine">
+<span id="mbam-engine-module"></span><h2>mbam.engine module<a class="headerlink" href="#module-mbam.engine" title="Permalink to this headline">¶</a></h2>
+<p>Manages many iteration of MBAM.</p>
+<dl class="class">
+<dt id="mbam.engine.Engine">
+<em class="property">class </em><code class="descclassname">mbam.engine.</code><code class="descname">Engine</code><span class="sig-paren">(</span><em>model_dict</em>, <em>data_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/engine.html#Engine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.engine.Engine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_dict</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary containing all the model information.</li>
+<li><strong>data_path</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The full path to the hdf5 data file for the model.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="mbam.engine.Engine.apply_limits">
+<code class="descname">apply_limits</code><span class="sig-paren">(</span><em>limit_list</em>, <em>printing=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/engine.html#Engine.apply_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.engine.Engine.apply_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Applies a list of given limits. No geodesic will be run.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>limit_list</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – A list of dictionaries representing limits. Each dictionary maps
+from a parameter to a limit.</li>
+<li><strong>printing</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Prints out each new model in latex formating if True.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.engine.Engine.print_latex">
+<code class="descname">print_latex</code><span class="sig-paren">(</span><em>limit</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/engine.html#Engine.print_latex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.engine.Engine.print_latex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints out a latex version of the current model and the limit
+that was evaluated.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>limit</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – The limit dictionary that was just evaluated.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.engine.Engine.print_limit">
+<code class="descname">print_limit</code><span class="sig-paren">(</span><em>limit</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/engine.html#Engine.print_limit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.engine.Engine.print_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parses the given limit into a latex equation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>limit</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary containing limits – a mapping from parameters to
+limits.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.engine.Engine.run">
+<code class="descname">run</code><span class="sig-paren">(</span><em>printing=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/engine.html#Engine.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.engine.Engine.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the geodesic, infers the limit, attempts to evaluate the limit.
+Continues to repeat the process until a failure.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>printing</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Prints out each new model in latex formating if True.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mbam.geodesic">
+<span id="mbam-geodesic-module"></span><h2>mbam.geodesic module<a class="headerlink" href="#module-mbam.geodesic" title="Permalink to this headline">¶</a></h2>
+<p>A manager module for running and reporting on the geodesic.</p>
+<dl class="class">
+<dt id="mbam.geodesic.Geodesic">
+<em class="property">class </em><code class="descclassname">mbam.geodesic.</code><code class="descname">Geodesic</code><span class="sig-paren">(</span><em>geo_parser</em>, <em>sender_file_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="mbam.geodesic.Geodesic.check_engine_geo">
+<code class="descname">check_engine_geo</code><span class="sig-paren">(</span><em>geo_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic.check_engine_geo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic.check_engine_geo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the current data for any potential limits used for engine.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.geodesic.Geodesic.check_limits">
+<code class="descname">check_limits</code><span class="sig-paren">(</span><em>recent_vs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic.check_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic.check_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks parameter velocities for any potential limits.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>recent_vs</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – A list of the most recent parameter velocities.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.geodesic.Geodesic.curr_data">
+<code class="descname">curr_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic.curr_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic.curr_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Queries the geodesic from the database and checks potential limits</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Contains geodesic data and any inferred limits.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.geodesic.Geodesic.find_threshold">
+<code class="descname">find_threshold</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic.find_threshold"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic.find_threshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>The threshold set to determine what velocities are defined as approaching
+a limit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – The nth parameter being checked.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.geodesic.Geodesic.kill">
+<code class="descname">kill</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic.kill"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic.kill" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kills the subprocesses used to run the geodesic and the data collector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.geodesic.Geodesic.run_geo_auto">
+<code class="descname">run_geo_auto</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic.run_geo_auto"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic.run_geo_auto" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the geodesic until manually killed, or until the limits are found.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>limits</strong> – A dictionary of limits. e.g. {“p1”: “inf”, “p2”, “zero”}</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.geodesic.Geodesic.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts both subprocesses: the Julia geodesic and data collector.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.geodesic.Geodesic.update_limits">
+<code class="descname">update_limits</code><span class="sig-paren">(</span><em>geo_data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/geodesic.html#Geodesic.update_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.geodesic.Geodesic.update_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks the current data for any potential limits used for UI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>geo_data</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – The dictionary of geodesic data.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The geodesic data and any limits inferred.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mbam.iteration">
+<span id="mbam-iteration-module"></span><h2>mbam.iteration module<a class="headerlink" href="#module-mbam.iteration" title="Permalink to this headline">¶</a></h2>
+<p>This class manages everything necessary to go from a model with N parameter to
+a model with N-1 parameters. This includes running the geodesic, inferring
+the limits, reparameterizing the model, as well as evaluating singular perturbations.</p>
+<dl class="class">
+<dt id="mbam.iteration.Iteration">
+<em class="property">class </em><code class="descclassname">mbam.iteration.</code><code class="descname">Iteration</code><span class="sig-paren">(</span><em>model</em>, <em>model_id</em>, <em>data_path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="mbam.iteration.Iteration.add_geo_options">
+<code class="descname">add_geo_options</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.add_geo_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.add_geo_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the options for the Julia geodesic parser.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – <p>options = {</p>
+<blockquote>
+<div>“tmax”: <code class="docutils literal notranslate"><span class="pre">float</span></code>,<p>”lambda”: <code class="docutils literal notranslate"><span class="pre">float</span></code>,</p>
+<p>”abstol”: <code class="docutils literal notranslate"><span class="pre">float</span></code>,</p>
+<p>”reltol”: <code class="docutils literal notranslate"><span class="pre">float</span></code>,</p>
+<p>”use_svd”: <code class="docutils literal notranslate"><span class="pre">bool</span></code>,</p>
+<p>”use_pinv”: <code class="docutils literal notranslate"><span class="pre">bool</span></code>,</p>
+</div></blockquote>
+<p>}</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.add_julia_options">
+<code class="descname">add_julia_options</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.add_julia_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.add_julia_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the options for the Julia model parser.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – options = {“bare”: <code class="docutils literal notranslate"><span class="pre">bool</span></code>, “weights” <code class="docutils literal notranslate"><span class="pre">bool</span></code>}</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.apply_ftilde">
+<code class="descname">apply_ftilde</code><span class="sig-paren">(</span><em>exception=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.apply_ftilde"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.apply_ftilde" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to evaluate epsilon approaching zero. If the model is valid,
+it returns True. If it is not valid, the function is called again and
+attempts singular perturbation before evaluating the limit.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>exception</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – True if reparameterization has failed without an exception applied.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the evaluation was successful.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.apply_limits">
+<code class="descname">apply_limits</code><span class="sig-paren">(</span><em>limits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.apply_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.apply_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to reparameterize the model. If not successful, exceptions
+are attempted with Singular Perturbations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>limits</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – Dictionary of limits to be applied to the model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the limits were applied successfully.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.auto_run">
+<code class="descname">auto_run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.auto_run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.auto_run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the limits, applies the limits, and saves the new model if successful.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the iteration was successful and saved.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.check_ftildes">
+<code class="descname">check_ftildes</code><span class="sig-paren">(</span><em>solved</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.check_ftildes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.check_ftildes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make sure that f_inv functions in ftilde don’t contain any of
+the parameters to be removed from the old model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>solved</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – A list of ftildes.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the f_inv doesn’t contain any parameters to be removed.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.create_tilde_subs">
+<code class="descname">create_tilde_subs</code><span class="sig-paren">(</span><em>ftildes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.create_tilde_subs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.create_tilde_subs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using ftildes, create a list of tuples for SymPy substitutions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ftildes</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – A list of ftildes ready to be used for substitutions.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of SymPy substitutions.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">list</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mbam.iteration.Iteration.dict">
+<code class="descname">dict</code><a class="headerlink" href="#mbam.iteration.Iteration.dict" title="Permalink to this definition">¶</a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">dict</span></code> – Turn the iteration into a dictionary for saving.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.find_limits">
+<code class="descname">find_limits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.find_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.find_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the geodesic and runs until a limit is found, or until the
+geodesic crashes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.init_geodesic">
+<code class="descname">init_geodesic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.init_geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.init_geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the Geodesic object, and retrieves its id.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.init_parsers">
+<code class="descname">init_parsers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.init_parsers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.init_parsers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Assigns the parser for the model based off the model type, then it
+creates the geodesic parser.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.kill_geodesic">
+<code class="descname">kill_geodesic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.kill_geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.kill_geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kills the geodesic subprocess.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.limit_keys_to_ps">
+<code class="descname">limit_keys_to_ps</code><span class="sig-paren">(</span><em>limits</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.limit_keys_to_ps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.limit_keys_to_ps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts what the geodesic returns to a more useable format.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>limits</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary of limits returned by the geodesic.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>limits</strong> – A dictionary of limits converted to new format.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>Converts (p_index: limit) to (p_name: limit).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.parse_templates">
+<code class="descname">parse_templates</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.parse_templates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.parse_templates" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the iteration is successsful, the ftildes are parsed into
+templates to be saved in the database.</p>
+<p class="rubric">Example</p>
+<p>ftilde = {“theta”: “p1”, “limit”: “inf”, “tilde”: “epsilon”, “f”: “1/p1”, “f_inv”: “1/epsilon”}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.realize_limit">
+<code class="descname">realize_limit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.realize_limit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.realize_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the model has been successfully applied.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the new N-1 model is valid.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.save_iteration">
+<code class="descname">save_iteration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.save_iteration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.save_iteration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds the iteration to the database, updates the parent and child
+models with the successful iteration id.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.solve_ftildes">
+<code class="descname">solve_ftildes</code><span class="sig-paren">(</span><em>ftheta</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.solve_ftildes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.solve_ftildes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Using ftheta, solve for f_inv to substitute in place of the old
+parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ftheta</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – A list of fthetas to be solved.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of solved fthetas, now known as ftildes.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">list</span></code></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>ftheta = {“theta”: “p1”, “limit”: “inf”, “tilde”: “epsilon”, “f”: “1/p1”}</p>
+<p>ftilde = {“theta”: “p1”, “limit”: “inf”, “tilde”: “epsilon”, “f”: “1/p1”, “f_inv”: “1/epsilon”}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.try_singular_limit">
+<code class="descname">try_singular_limit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.try_singular_limit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.try_singular_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an ODE to a DAE, then attempts combinging equations to
+solve the singular perturbation error.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.unresolved_thetas">
+<code class="descname">unresolved_thetas</code><span class="sig-paren">(</span><em>ftildes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.unresolved_thetas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.unresolved_thetas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substitutes out the old parameters in ftilde until no old paramters
+remain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ftildes</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – A list of ftildes to be solved.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of solved ftildes, containing no old parameters</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">list</span></code></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>ftilde1 = {“theta”: “p1”, “limit”: “inf”, “tilde”: “epsilon”, “f”: “1/p1”,  “f_inv”: “1/epsilon”}</p>
+<p>old_ftilde2 = {“theta”: “p2”, “limit”: “inf”, “tilde”: “p1_over_p2”, “f”: “p1/p2”,  “f_inv”: “p1/p1_over_p2”}</p>
+<p>old_ftilde2 still contains an old paramter: p1.</p>
+<p>new_ftilde2 = {“theta”: “p2”, “limit”: “inf”, “tilde”: “p1_over_p2”, “f”: “p1/p2”, “f_inv”: “1/(epsilon*p1_over_p2”}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.update_geo_script">
+<code class="descname">update_geo_script</code><span class="sig-paren">(</span><em>script</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.update_geo_script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.update_geo_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overwrite the current julia geodesic script.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>script</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The Julia geodesic file as a string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.update_julia_script">
+<code class="descname">update_julia_script</code><span class="sig-paren">(</span><em>script</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.update_julia_script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.update_julia_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overwrite the current julia model script.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>script</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The Julia Model file as a string.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.iteration.Iteration.update_params">
+<code class="descname">update_params</code><span class="sig-paren">(</span><em>ftildes</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/iteration.html#Iteration.update_params"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.iteration.Iteration.update_params" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses ftilde to change the parameter names from those currently in the
+model to those found in the ftildes.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mbam.juliatomongo">
+<span id="mbam-juliatomongo-module"></span><h2>mbam.juliatomongo module<a class="headerlink" href="#module-mbam.juliatomongo" title="Permalink to this headline">¶</a></h2>
+<p>This module initializes a  <cite>Collector</cite> object. This object then runs
+until it is manually killed, or until the geodesic that it is connected to
+completes or crashes. It forwards all the data from the geodesic on to
+MongoDB.</p>
+<p>This module is started at the same the Julia Geodesic script is started. Once
+a stable package for Julia is released connecting to MongoDB, this class
+should be removed and the geodesic should report directly to MongoDB. However,
+it seems that is not currently an option.</p>
+<dl class="class">
+<dt id="mbam.juliatomongo.Collector">
+<em class="property">class </em><code class="descclassname">mbam.juliatomongo.</code><code class="descname">Collector</code><span class="sig-paren">(</span><em>geo_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/juliatomongo.html#Collector"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.juliatomongo.Collector" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Uses ZMQ sockets to connect to the Julia Geodesic currently running,
+forwards the data collected to MongoDB.</p>
+<dl class="method">
+<dt id="mbam.juliatomongo.Collector.collect">
+<code class="descname">collect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/juliatomongo.html#Collector.collect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.juliatomongo.Collector.collect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Collects the data from the Julia Geodesic running.</p>
+<p>Will run until the process is killed manually, or until the
+Geodesic reports that the script has either completed or crashed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.juliatomongo.Collector.start_sockets">
+<code class="descname">start_sockets</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/juliatomongo.html#Collector.start_sockets"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.juliatomongo.Collector.start_sockets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Intializes the ZMQ socket on port 5556.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mbam.mongo">
+<span id="mbam-mongo-module"></span><h2>mbam.mongo module<a class="headerlink" href="#module-mbam.mongo" title="Permalink to this headline">¶</a></h2>
+<p>A custom client for connecting to MongoDB and managing the data flow
+for MBAM. Six collections are used in the database ‘mbam’:</p>
+<p>geos: geodesic storage.
+models: model storage.
+model_data: the data read in the hdf5 files. Used in models.
+iters: successful MBAM iteration storage.
+temp_key: the key for navigating limit templates.
+temps: limit template storage.</p>
+<dl class="class">
+<dt id="mbam.mongo.MMongo">
+<em class="property">class </em><code class="descclassname">mbam.mongo.</code><code class="descname">MMongo</code><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="mbam.mongo.MMongo.finish_geodesic">
+<code class="descname">finish_geodesic</code><span class="sig-paren">(</span><em>geo_id</em>, <em>exception=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.finish_geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.finish_geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Marks the geodesic as ‘done’ inside MongoDB.</p>
+<p>This allows the object waiting for the geodesic to finish to know
+it has completed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.get_hasse_children">
+<code class="descname">get_hasse_children</code><span class="sig-paren">(</span><em>model_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.get_hasse_children"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.get_hasse_children" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the length of a model’s successful iterations.</p>
+<p>Is used to create a unique name for several models with the same parent
+model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The id for the parent model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>len_to_iter</strong> – The total number of children the parent model already has.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">int</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.get_temp_key">
+<code class="descname">get_temp_key</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.get_temp_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.get_temp_key" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>key</strong> – A dictionary of the format: {“limit_type”: “index in key”}</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>key = {“zero”: 0, “inf”: 1}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.init_geodesic">
+<code class="descname">init_geodesic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.init_geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.init_geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a new geodesic object inside MongoDB.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>geo_id</strong> – The string representation of the new geodesic.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.load_data_id">
+<code class="descname">load_data_id</code><span class="sig-paren">(</span><em>data_id_str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.load_data_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.load_data_id" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data_id_str</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The id for the data object to find.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>data</strong> – The dictionary containing all the data found in the database.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.load_model_id">
+<code class="descname">load_model_id</code><span class="sig-paren">(</span><em>model_id_str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.load_model_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.load_model_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieves a model from the database with the given id.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_id_str</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The model id to query.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>model_dict</strong> – The model and data (if exists) connected to the given id.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.load_templates">
+<code class="descname">load_templates</code><span class="sig-paren">(</span><em>key=None</em>, <em>clss=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.load_templates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.load_templates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads all limit templates and filters them by <cite>key</cite> and <cite>clss</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>key</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code> or <code class="docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code>) – A list or tuple of ints defining how many of each limit type
+occurs within a template.</li>
+<li><strong>clss</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – A string used to define the model class that is going to use
+the templates.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>list</strong> – A list of dictionary templates after filtering by key and class.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="docutils literal notranslate"><span class="pre">list</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>Model classes are user defined, just be consistent.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.push_geodesic">
+<code class="descname">push_geodesic</code><span class="sig-paren">(</span><em>geo_id</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.push_geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.push_geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append new geodesic data to the end of the current geodesic data.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>geo_id</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The ID for the geodesic to add the data to.</li>
+<li><strong>data</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – The dictionary of new data to be appended to the current geodesic.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.push_model_from_iter">
+<code class="descname">push_model_from_iter</code><span class="sig-paren">(</span><em>model_id</em>, <em>iter_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.push_model_from_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.push_model_from_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the successful iteration id to the child model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_id</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The id for the child model.</li>
+<li><strong>iter_id</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The id for the successful iteration.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.push_model_to_iter">
+<code class="descname">push_model_to_iter</code><span class="sig-paren">(</span><em>model_id</em>, <em>iter_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.push_model_to_iter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.push_model_to_iter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the successful iteration id to the parent model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>model_id</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The id for the parent model.</li>
+<li><strong>iter_id</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The id for the successful iteration.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.query_geodesic">
+<code class="descname">query_geodesic</code><span class="sig-paren">(</span><em>geo_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.query_geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.query_geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>geo_id</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The ID for the geodesic to query.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>geo_data</strong> – The data queried from the current geodesic, excluding its ID.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.save_iteration">
+<code class="descname">save_iteration</code><span class="sig-paren">(</span><em>iteration</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.save_iteration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.save_iteration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add the successful iteration to the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>iteration</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – All data corresponding to the iteration.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>iter_id</strong> – The id generated by MongoDB. Used to udpate parent/child models.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>mbam_model</em>, <em>data_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.save_model" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>mbam_model</strong> (<code class="docutils literal notranslate"><span class="pre">mbammodel</span></code>) – The model object to be saved.</li>
+<li><strong>data_id</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The id of the saved data in the database. Used to connect the model
+to its data.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.save_model_data">
+<code class="descname">save_model_data</code><span class="sig-paren">(</span><em>data_json</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.save_model_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.save_model_data" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data_json</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – The HDF5 data to be saved inside the database.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>data_id</strong> – The id generated by MongoDB while saving the data.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.save_temp">
+<code class="descname">save_temp</code><span class="sig-paren">(</span><em>temp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.save_temp"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.save_temp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a single template in the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>temp</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A template dictionary.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>template = {‘key’: [0, 1], ‘template’: ‘1/inf_1’, ‘label’: ‘epsilon’,
+‘class’: ‘michaelis-menten’ }</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.save_temps">
+<code class="descname">save_temps</code><span class="sig-paren">(</span><em>temp_list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.save_temps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.save_temps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a list of templates in the database.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>temp</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – A list of template dictionaries.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<dl class="docutils">
+<dt>temp_list = [{‘key’: [0, 1], ‘template’: ‘1/inf_1’, ‘label’: ‘epsilon’,</dt>
+<dd>‘class’: ‘michaelis-menten’ }]</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.temp_key_filter">
+<code class="descname">temp_key_filter</code><span class="sig-paren">(</span><em>curr_key</em>, <em>temp_key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.temp_key_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.temp_key_filter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns true if <cite>curr_key[i]</cite> &lt; <cite>temp_key[i]</cite> for all i.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>curr_key</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code> or <code class="docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code>) – A list or tuple of ints defining how many of each limit type
+occurs within the current limit.</li>
+<li><strong>temp_key</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code> or <code class="docutils literal notranslate"><span class="pre">tuple</span></code> of <code class="docutils literal notranslate"><span class="pre">int</span></code>) – A list or tuple of ints defining how many of each limit type
+occurs within a queried template.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>valid</strong> – True if the queried template is functional with the current limit.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="docutils literal notranslate"><span class="pre">bool</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.mongo.MMongo.update_temp_key">
+<code class="descname">update_temp_key</code><span class="sig-paren">(</span><em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/mongo.html#MMongo.update_temp_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.mongo.MMongo.update_temp_key" title="Permalink to this definition">¶</a></dt>
+<dd><p>Overwrites the current template key with the given <cite>key</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>key</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary of the format: {“limit_type”: “index in key”}</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>key = {“zero”: 0, “inf”: 1}</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mbam.ui">
+<span id="mbam-ui-module"></span><h2>mbam.ui module<a class="headerlink" href="#module-mbam.ui" title="Permalink to this headline">¶</a></h2>
+<p>A module for communication between the user interface websocket handler
+and MBAM functionality. This class takes the place of MBAM Engine when using
+the UI. It is not made to be used outside of use with the UI.</p>
+<dl class="class">
+<dt id="mbam.ui.MbamUI">
+<em class="property">class </em><code class="descclassname">mbam.ui.</code><code class="descname">MbamUI</code><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="mbam.ui.MbamUI.begin_iteration">
+<code class="descname">begin_iteration</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.begin_iteration"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.begin_iteration" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if a model and its data have been saved, if so, an mbam iteration
+will be created.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.eval_epsilon">
+<code class="descname">eval_epsilon</code><span class="sig-paren">(</span><em>eq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.eval_epsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.eval_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the limit as epsilon goes to zero in the given equation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eq</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The equation to be evaluated.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The dictionary containing the equation evaluated as epsilon goes to zero.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.iterate">
+<code class="descname">iterate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.iterate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.iterate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves and updates the N-1 model to the N model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The dictionary containing the N-1 model to be udpated as the N model
+in the UI.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.iterate_model">
+<code class="descname">iterate_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.iterate_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.iterate_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the model and id to the N-1 model and N-1 model id, then
+creates a new mbam iteration object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.kill_geodesic">
+<code class="descname">kill_geodesic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.kill_geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.kill_geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kill the subprocesses used to run the geodesic.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.load_ftheta">
+<code class="descname">load_ftheta</code><span class="sig-paren">(</span><em>fthetas</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.load_ftheta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.load_ftheta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes the fthetas from the UI, transforms them to ftildes, creates
+the substitutes for those ftildes, and applies those substitutions to
+the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>fthetas</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – A list of ftheta dictionaries.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the reparameterization with ftilde is successful.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.load_model_id">
+<code class="descname">load_model_id</code><span class="sig-paren">(</span><em>id_str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.load_model_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.load_model_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use a model id to load the model and its data. Send necessary
+information forward to the user interface.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>id_str</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – A string representing a model id.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dictionary containing a model and its data, if data is associated
+with the given model.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.manual_iterate">
+<code class="descname">manual_iterate</code><span class="sig-paren">(</span><em>model_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.manual_iterate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.manual_iterate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Used when the user updates the model manually.</p>
+<p>Recieves a new model, checks if the model is valid, then completes
+the iteration from N to N-1.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_dict</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – The dictionary representing the N-1 model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The new model dictionary to have the UI update with it as the N model.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.query_geo">
+<code class="descname">query_geo</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.query_geo"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.query_geo" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the geodesic data and get it ready to be sent to the UI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The geodesic data to be sent to the UI.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.read_model_data">
+<code class="descname">read_model_data</code><span class="sig-paren">(</span><em>data_str</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.read_model_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.read_model_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes in hdf5 byte string from the websocket, saves it to a temp.h5
+file to be loaded in the Julia scripts.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data_str</strong> (<code class="docutils literal notranslate"><span class="pre">byte_str</span></code>) – A raw string of bytes representing all hdf5 data contained in a file.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.save_model">
+<code class="descname">save_model</code><span class="sig-paren">(</span><em>model_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.save_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.save_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Saves a model dictionary to the database and creates a model object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_dict</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary containing all necessary information for a model.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dictionary containing model info to be sent to the UI.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.save_model_dict">
+<code class="descname">save_model_dict</code><span class="sig-paren">(</span><em>model_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.save_model_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.save_model_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Turns a model dictionary into an MbamModel object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>model_dict</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary containing all necessary information for a model.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.scripts_ready">
+<code class="descname">scripts_ready</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.scripts_ready"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.scripts_ready" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if an iteration has been made. If it has been made, then the
+julia scripts will be ready to be sent.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if the scripts are ready to be sent.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.send_data_done">
+<code class="descname">send_data_done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.send_data_done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.send_data_done" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Response to be send to the UI containing the data read in the hdf5 file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.send_model_load_done">
+<code class="descname">send_model_load_done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.send_model_load_done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.send_model_load_done" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Response to be send to the UI containing a model dict.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.send_save_done">
+<code class="descname">send_save_done</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.send_save_done"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.send_save_done" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Response to be send to the UI containing a model dict and a model
+in latex formatting.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.send_scripts">
+<code class="descname">send_scripts</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.send_scripts"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.send_scripts" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Response to be send to the UI containing the julia model and geodesic scripts.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.simplify_eq">
+<code class="descname">simplify_eq</code><span class="sig-paren">(</span><em>eq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.simplify_eq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.simplify_eq" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes an equation from the UI, simiplifies it, and sends the
+simplified version back to the UI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eq</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The equation to be simplified.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dictionary containing the equation as both a string and latex string.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.start_geodesic">
+<code class="descname">start_geodesic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.start_geodesic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.start_geodesic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the subprocesses necessary for the geodesic to run.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.sub_ftildes">
+<code class="descname">sub_ftildes</code><span class="sig-paren">(</span><em>eq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.sub_ftildes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.sub_ftildes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substitutes f_inv in for the old parameters in the given equation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eq</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The equation with parameters to be substituted.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Contains the newly substituted equation as a string and latex string.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.update_geo_options">
+<code class="descname">update_geo_options</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.update_geo_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.update_geo_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the julia geodesic options and send the new generated scripts
+to the UI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – Julia geodesic options.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dictionary containing the new script to be sent to the UI.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.update_geo_script">
+<code class="descname">update_geo_script</code><span class="sig-paren">(</span><em>script</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.update_geo_script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.update_geo_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the julia geodesic script sent from the UI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – Julia geodesic script.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.update_julia_options">
+<code class="descname">update_julia_options</code><span class="sig-paren">(</span><em>options</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.update_julia_options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.update_julia_options" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the julia model options and send the new generated scripts
+to the UI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – Julia model options.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dictionary containing the new script to be sent to the UI.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.ui.MbamUI.update_julia_script">
+<code class="descname">update_julia_script</code><span class="sig-paren">(</span><em>script</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/ui.html#MbamUI.update_julia_script"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.ui.MbamUI.update_julia_script" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the julia model script sent from the UI.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>options</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – Julia model script.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mbam">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mbam" title="Permalink to this headline">¶</a></h2>
+<p>Loads in all the module necessary to run mbam automatically.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dane Bjork.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

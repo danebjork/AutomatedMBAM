@@ -1,3 +1,6 @@
+"""The websocket handler for connecting with the User Interface.
+Runs until killed or crashes.
+"""
 #!/usr/bin/env python
 
 # pip3 install WebSockets

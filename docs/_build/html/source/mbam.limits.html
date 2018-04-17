@@ -1,0 +1,710 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mbam.limits package &mdash; AutomatedMBAM 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../genindex.html"/>
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="AutomatedMBAM 1.0 documentation" href="../index.html"/> 
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> AutomatedMBAM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">mbam.limits package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-mbam.limits.reparameterize">mbam.limits.reparameterize module</a></li>
+<li><a class="reference internal" href="#module-mbam.limits.singular_limit">mbam.limits.singular_limit module</a></li>
+<li><a class="reference internal" href="#module-mbam.limits">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">AutomatedMBAM</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>mbam.limits package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/source/mbam.limits.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mbam-limits-package">
+<h1>mbam.limits package<a class="headerlink" href="#mbam-limits-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-mbam.limits.reparameterize">
+<span id="mbam-limits-reparameterize-module"></span><h2>mbam.limits.reparameterize module<a class="headerlink" href="#module-mbam.limits.reparameterize" title="Permalink to this headline">¶</a></h2>
+<p>Given a set of limits, return all currently templated possibilities for
+a reparameterization. Reparameterization is the first tool to use when
+attempting to evaluate a model at a limit and remove a single parameter.</p>
+<p>This module uses combinatorics to create possible reparameterizations using
+the current limit, and templates pulled from the database. While there
+may be lots of possibilities in the reparameterizations, only one valid model
+needs to be returned.</p>
+<dl class="class">
+<dt id="mbam.limits.reparameterize.Reparam">
+<em class="property">class </em><code class="descclassname">mbam.limits.reparameterize.</code><code class="descname">Reparam</code><span class="sig-paren">(</span><em>limits</em>, <em>key_legend</em>, <em>model_class=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Creates all possible fthetas given the limit, the legend for the limit
+template key, and filtering with the model class.</p>
+<dl class="method">
+<dt id="mbam.limits.reparameterize.Reparam.add_to_ftheta">
+<code class="descname">add_to_ftheta</code><span class="sig-paren">(</span><em>subbed</em>, <em>epsilon</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam.add_to_ftheta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam.add_to_ftheta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Once the templates are filled, fthetas need to be created.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>subbed</strong> (<code class="docutils literal notranslate"><span class="pre">SymPy</span></code> symbolic equation) – The new parameter combination as an equation.</li>
+<li><strong>epsilon</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – True if the parameter combination evaluates to zero.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.reparameterize.Reparam.count_limits">
+<code class="descname">count_limits</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam.count_limits"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam.count_limits" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a mapping to see how many of each limit is being reached
+by the parameters. This is used as the <cite>limit_key</cite> and will filter
+templates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.reparameterize.Reparam.fill_template">
+<code class="descname">fill_template</code><span class="sig-paren">(</span><em>templates</em>, <em>epsilon=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam.fill_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam.fill_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Iterates through templates, and creates any possible manipulation
+of each template with the current limits.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>templates</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – The templates to be manipulated.</li>
+<li><strong>epsilon</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – True if the templates evalaute to zero.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>template_subs</strong> – A list of templates filled by parameters approaching their limits.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="docutils literal notranslate"><span class="pre">list</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>limits: {“p1”: “inf”, “p2”: “inf”},</p>
+<p>template = “inf_1/inf_2”,</p>
+<p>returns [“p1/p2”, “p2/p1”]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.reparameterize.Reparam.filter_fthetas">
+<code class="descname">filter_fthetas</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam.filter_fthetas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam.filter_fthetas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates all possible ftheta combinations for the given limit, then
+filters out he invalid fthetas.</p>
+<p>See in-line comments for details.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.reparameterize.Reparam.find_limit_subs">
+<code class="descname">find_limit_subs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam.find_limit_subs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam.find_limit_subs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates possible substitutions (template_name, param_name).</p>
+<p>If two parameters are approaching infinity then the potential names for
+those parameters could be either ‘inf_1’ or ‘inf_2’. This function
+finds a list of all possible parameter limit namings.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>template_fill_list</strong> – A list that contains all possible subs for the parameters to fill
+the limits.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">list</span></code></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>{“a”: “inf”} =&gt; the template needs one infinity:</p>
+<p>returns [[(‘a’, ‘inf_1’)], [((‘b’, ‘inf_1)]]</p>
+<p>{“a”: “inf”, “b”: “inf”}=&gt; the template needs two infinities:</p>
+<p>returns [[(‘a’, ‘inf_1’), (‘b’, ‘inf_2)], [(‘a’, ‘inf_2’), (‘b’, ‘inf_1)]]</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.reparameterize.Reparam.get_fthetas">
+<code class="descname">get_fthetas</code><span class="sig-paren">(</span><em>e_temp</em>, <em>f_temp</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam.get_fthetas"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam.get_fthetas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds all the potential ftheta combinations.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>e_temp</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – List of templates that evaluate to zero.</li>
+<li><strong>f_temp</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – List of templates that evaluate to a non-zero finite value.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>valid_fthetas</strong> – A list of ftheta dictionaries.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="docutils literal notranslate"><span class="pre">list</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>ftheta = {“theta”: “p1”, “limit”: “inf”, “tilde”: “epsilon”, “f”: “1/p1”}</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.reparameterize.Reparam.sub_label_name">
+<code class="descname">sub_label_name</code><span class="sig-paren">(</span><em>subbed_eq</em>, <em>epsilon</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam.sub_label_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam.sub_label_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A simiple algorithm to rename new parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>subbed_eq</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The parameter equation to be renamed</li>
+<li><strong>epsilon</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – Automatically renames parameter to ‘epsilon’ if True.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>label</strong> – The new label for the parameter combination.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="docutils literal notranslate"><span class="pre">str</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>a/b -&gt; a_over_b</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.reparameterize.Reparam.sub_params_in_template">
+<code class="descname">sub_params_in_template</code><span class="sig-paren">(</span><em>sub_list</em>, <em>template</em>, <em>epsilon</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/reparameterize.html#Reparam.sub_params_in_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.reparameterize.Reparam.sub_params_in_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces limit types in templates with actual parameters.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>sub_list</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – List of SymPy substitutions of the form (limit_type, parameter).</li>
+<li><strong>template</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – Template dictionary to be substituted with parameters.</li>
+<li><strong>epsilon</strong> (<code class="docutils literal notranslate"><span class="pre">bool</span></code>) – True if the template evaluates to zero.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mbam.limits.singular_limit">
+<span id="mbam-limits-singular-limit-module"></span><h2>mbam.limits.singular_limit module<a class="headerlink" href="#module-mbam.limits.singular_limit" title="Permalink to this headline">¶</a></h2>
+<p>Singular Limits are often found when using the Manifold Boundary Approximation
+Method. This module is built to evaluate these limits automatically. It
+works for specific cases e.g. var*epsilon, var/epsilon, and combining equations.</p>
+<p>Further work can be done to extend this class to work on a more broad range
+of variable/singular limits.</p>
+<dl class="class">
+<dt id="mbam.limits.singular_limit.SingularLimit">
+<em class="property">class </em><code class="descclassname">mbam.limits.singular_limit.</code><code class="descname">SingularLimit</code><span class="sig-paren">(</span><em>dae_model</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>dae_model</strong> (<code class="docutils literal notranslate"><span class="pre">DAEModel</span></code>) – A differential algebraic equation model.</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.check_var_and_epsilon">
+<code class="descname">check_var_and_epsilon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.check_var_and_epsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.check_var_and_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks every variable to see if one is found with every instance of
+epsilon. <a href="#id1"><span class="problematic" id="id2">*</span></a>May also need to add check for the derivative.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">True if one variable is found with every instance of epsilon.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">bool</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.combine_eqs">
+<code class="descname">combine_eqs</code><span class="sig-paren">(</span><em>add_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.combine_eqs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.combine_eqs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines the given equations within the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>add_dict</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary mapping from operator to list of tuples each containg
+two values – the equations to be operated on.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Example</p>
+<p>{“+”: [(0, 1)]}: Add equation 0 to equation 1.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.create_new_var_subs">
+<code class="descname">create_new_var_subs</code><span class="sig-paren">(</span><em>new_vars</em>, <em>new_var_eqs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.create_new_var_subs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.create_new_var_subs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates all substitutions necessary to update different functions
+as well as for use in the algorithm.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.create_old_to_new_vars">
+<code class="descname">create_old_to_new_vars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.create_old_to_new_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.create_old_to_new_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates the substitution from the old variables to those newly
+defined with the singular limit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.divide_epsilon">
+<code class="descname">divide_epsilon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.divide_epsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.divide_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks if the majority of any equation in the model is combosed of
+the term being multiplied by epsilon. If it is the majority and there are
+no epsilon terms found in the denominator, the equation will be divided
+by epsilon.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.eval_limit">
+<code class="descname">eval_limit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.eval_limit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.eval_limit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Evaluates the potential singular limit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.extract_epsilon_terms">
+<code class="descname">extract_epsilon_terms</code><span class="sig-paren">(</span><em>eq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.extract_epsilon_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.extract_epsilon_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extracts all epsilon terms from a given equation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eq</strong> (<code class="docutils literal notranslate"><span class="pre">Sympy</span> <span class="pre">Equation</span></code>) – A symbolic form of an equation, potentially containin epsilon.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><ul class="simple">
+<li><strong>terms</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – The list of terms that contain epsilon found in the equation.</li>
+<li><strong>negative_terms</strong> (<code class="docutils literal notranslate"><span class="pre">list</span></code>) – The list of terms that contain epsilon found in the equation,
+where each term has been multiplied by -1.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.find_derivatives">
+<code class="descname">find_derivatives</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.find_derivatives"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.find_derivatives" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches the residuals for derivatives. Used to merge those derivatives
+where more than one derivative occurs in a given equation.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A dictionary containing the equation index as the key, and a list
+of the derivatives contained in that equation as the value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.find_epsilon">
+<code class="descname">find_epsilon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.find_epsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.find_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Searches the residuals function for all terms that epsilon is found
+in. Creates a dictionary mapping from equation index to list of terms
+containing epsilon found in that equation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.find_fast_var">
+<code class="descname">find_fast_var</code><span class="sig-paren">(</span><em>deriv_counts</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.find_fast_var"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.find_fast_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uses the counts of derivatives to assign the variable with the
+most frequent derivative as the fast variable.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>deriv_counts</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary mapping from derivative value to count.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.find_like_terms">
+<code class="descname">find_like_terms</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.find_like_terms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.find_like_terms" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks each list of terms to find equations that have exact
+(positive or negative) lists of terms.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>to_combine</strong> – A dictionary mapping from operator to a list of tuples directing
+which equations should be combined together.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">dict</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.find_new_var_names">
+<code class="descname">find_new_var_names</code><span class="sig-paren">(</span><em>num_vars</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.find_new_var_names"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.find_new_var_names" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates new variable names that don’t already occur within the model.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>num_vars</strong> (<code class="docutils literal notranslate"><span class="pre">int</span></code>) – The number of variable names to be returned.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of new parameter names.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">list</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.merge_operator">
+<code class="descname">merge_operator</code><span class="sig-paren">(</span><em>var</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.merge_operator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.merge_operator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the operator used between the variable and epsilon.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>var</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The variable that occurs with every instance of epsilon.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A string representation of the operator used between the variable
+and epsilon. Empty if the operators vary.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">str</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.merge_subs">
+<code class="descname">merge_subs</code><span class="sig-paren">(</span><em>sym_vs</em>, <em>str_operator</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.merge_subs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.merge_subs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Combines the variables in the list with epsilon if being operated on
+by the given operator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>sym_vs</strong> (<code class="docutils literal notranslate"><span class="pre">Sympy.Symbol</span></code>) – A list of symbolic variables (often just one variable).</li>
+<li><strong>str_operator</strong> (<code class="docutils literal notranslate"><span class="pre">str</span></code>) – The operator acting on the variable and epsilon.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>subs</strong> – A list of tuples for substituting var(operator)epsilon to vartilde.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><code class="docutils literal notranslate"><span class="pre">list</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.multiply_epsilon">
+<code class="descname">multiply_epsilon</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.multiply_epsilon"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.multiply_epsilon" title="Permalink to this definition">¶</a></dt>
+<dd><p>Looks for epsilon in the denominator of the equation. If found,
+multiplies that equation by epsilon to remove instabilities.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.new_var_equals">
+<code class="descname">new_var_equals</code><span class="sig-paren">(</span><em>new_v_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.new_var_equals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.new_var_equals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counts the derivatives in each equation</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>new_v_dict</strong> (<code class="docutils literal notranslate"><span class="pre">dict</span></code>) – A dictionary containing the equation index as the key, and a list
+of the derivatives contained in that equation as the value.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of combined derivatives. These combinations will be represented
+as a single variable after the limit is evaluated.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">list</span></code></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.set_fast_algebraic">
+<code class="descname">set_fast_algebraic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.set_fast_algebraic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.set_fast_algebraic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the fast variable as algebraic.
+* Most likely not needed anymore.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.sub_vars_in_ic">
+<code class="descname">sub_vars_in_ic</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.sub_vars_in_ic"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.sub_vars_in_ic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substitutes the new variables into the initial conditions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.sub_vars_in_icd">
+<code class="descname">sub_vars_in_icd</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.sub_vars_in_icd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.sub_vars_in_icd" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substitute the new variables into the initial condition derivatives
+function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.sub_vars_in_obs">
+<code class="descname">sub_vars_in_obs</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.sub_vars_in_obs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.sub_vars_in_obs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substitute the new variables into the observation function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.sub_vars_in_res">
+<code class="descname">sub_vars_in_res</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.sub_vars_in_res"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.sub_vars_in_res" title="Permalink to this definition">¶</a></dt>
+<dd><p>Substitutes the new variables into the residuals function.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.transform_vars">
+<code class="descname">transform_vars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.transform_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.transform_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates all substitutions necessary for the model to be valid
+following the evaluation of a singular limit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mbam.limits.singular_limit.SingularLimit.update_vars">
+<code class="descname">update_vars</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mbam/limits/singular_limit.html#SingularLimit.update_vars"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mbam.limits.singular_limit.SingularLimit.update_vars" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the variables in the model with new names.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-mbam.limits">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mbam.limits" title="Permalink to this headline">¶</a></h2>
+<p>The automatic limit evaluator module. Reparameterizes the model and attempts
+to evaluate any singular limits.</p>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dane Bjork.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

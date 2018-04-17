@@ -1,0 +1,915 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mbam.modeling.elements &mdash; AutomatedMBAM 1.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="AutomatedMBAM 1.0 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> AutomatedMBAM
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">AutomatedMBAM</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>mbam.modeling.elements</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mbam.modeling.elements</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">All pieces of a model. This contains Param, Params, Var,</span>
+<span class="sd">Vars, Eq, Eqs, and EqFull.</span>
+
+<span class="sd">Any model dictionary will be parsed into these individual pieces.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">from</span> <span class="nn">sympy</span> <span class="k">import</span> <span class="n">sympify</span><span class="p">,</span> <span class="n">Symbol</span><span class="p">,</span> <span class="n">gruntz</span><span class="p">,</span> <span class="n">latex</span>
+<span class="kn">import</span> <span class="nn">sympy</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="k">import</span> <span class="n">deepcopy</span>
+
+<span class="n">P_ATTR</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;init_val&quot;</span><span class="p">,</span> <span class="s2">&quot;transform&quot;</span><span class="p">]</span>
+<span class="n">VALID_TRANSFORMS</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;identity&quot;</span><span class="p">,</span> <span class="s2">&quot;log&quot;</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="s2">&quot;sinh&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Param"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Param">[docs]</a><span class="k">class</span> <span class="nc">Param</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base Parameter Class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : ``str``</span>
+<span class="sd">            The name of the parameter.</span>
+<span class="sd">        init_val : ``float``</span>
+<span class="sd">            The initial parameter value.</span>
+<span class="sd">        transform: ``str``</span>
+<span class="sd">            Transformation applied to the parmater. Valid transforms:</span>
+<span class="sd">            &#39;identity&#39;,&#39;log&#39;, &#39;sinh&#39;, or &#39;constant&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;p&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9999999</span><span class="p">))))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_init_val</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;init_val&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_transform</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;transform&quot;</span><span class="p">,</span> <span class="s2">&quot;identity&quot;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Param.set_name"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Param.set_name">[docs]</a>    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : ``str``</span>
+<span class="sd">            The name of the parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_name</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INVALID PARAMETER ATTR: </span><span class="se">\&quot;</span><span class="s2">name</span><span class="se">\&quot;</span><span class="s2">: &quot;</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_name</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Param.set_init_val"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Param.set_init_val">[docs]</a>    <span class="k">def</span> <span class="nf">set_init_val</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">init_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the initial value.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        init_val : ``float``</span>
+<span class="sd">            The initial parameter value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">init_val</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">init_val</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_init</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INVALID PARAMETER ATTR: </span><span class="se">\&quot;</span><span class="s2">init_val</span><span class="se">\&quot;</span><span class="s2">: &quot;</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_init</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Param.set_transform"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Param.set_transform">[docs]</a>    <span class="k">def</span> <span class="nf">set_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">transform</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the transform value.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        transform: ``str``</span>
+<span class="sd">            Transformation applied to the parmater. Valid transforms:</span>
+<span class="sd">            &#39;identity&#39;,&#39;log&#39;, &#39;sinh&#39;, or &#39;constant&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">transform</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">VALID_TRANSFORMS</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">transform</span> <span class="o">=</span> <span class="n">temp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_trans</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INVALID PARAMETER ATTR: </span><span class="se">\&quot;</span><span class="s2">transform</span><span class="se">\&quot;</span><span class="s2">: &quot;</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_trans</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        name : ``str``</span>
+<span class="sd">            The name of the parameter.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``: param = {&#39;name&#39;: &#39;p1&#39;, &#39;init_val&#39;, 1.0, &#39;transform&#39;: &#39;log&#39;}&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_name</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_init</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_trans</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">P_ATTR</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="Params"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Params">[docs]</a><span class="k">class</span> <span class="nc">Params</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A class containing all model parameters as ``Param``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        p_list : ``list``</span>
+<span class="sd">            List of parameter dictionaries.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        param_list = [{&#39;name&#39;: &#39;p1&#39;, &#39;init_val&#39;, 1.0, &#39;transform&#39;: &#39;log&#39;}, ...]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">p_list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Param</span><span class="p">(</span><span class="o">**</span><span class="n">p</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``: ps_dict = {&quot;ps&quot;: [{&#39;name&#39;: &#39;p1&#39;, &#39;init_val&#39;, 1.0, &#39;transform&#39;: &#39;log&#39;}]}&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;ps&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">dict</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">]}</span>
+
+<div class="viewcode-block" id="Params.update_index_transform"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Params.update_index_transform">[docs]</a>    <span class="k">def</span> <span class="nf">update_index_transform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the parameter&#39;s transformation at `index` to `t`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : ``int``</span>
+<span class="sd">            The index of the parameter to be updated.</span>
+<span class="sd">        t : ``str``</span>
+<span class="sd">            The transformation to change the given parameter to.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">set_type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Params.update_index_init"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Params.update_index_init">[docs]</a>    <span class="k">def</span> <span class="nf">update_index_init</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">init_val</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the parameter&#39;s initial value at `index` to `init_val`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : ``int``</span>
+<span class="sd">            The index of the parameter to be updated.</span>
+<span class="sd">        init_val : ``float``</span>
+<span class="sd">            The initial value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">set_init_val</span><span class="p">(</span><span class="n">init_val</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Params.update_index_name"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Params.update_index_name">[docs]</a>    <span class="k">def</span> <span class="nf">update_index_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Sets the parameter&#39;s name at `index` to `name`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : ``int``</span>
+<span class="sd">            The index of the parameter to be updated.</span>
+<span class="sd">        init_val : ``float``</span>
+<span class="sd">            The initial value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        len : ``int``</span>
+<span class="sd">            The total number of parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbols</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``: A list of parameter names.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">non_constants</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``: A list of *non-constant* parameter names.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">transform</span> <span class="o">!=</span> <span class="s2">&quot;constant&quot;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``: A list of *non-constant* parameter SymPy symbols.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">Symbol</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ps</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">transform</span> <span class="o">!=</span> <span class="s2">&quot;constant&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="Params.update_params"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Params.update_params">[docs]</a>    <span class="k">def</span> <span class="nf">update_params</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_params</span><span class="p">,</span> <span class="n">new_params</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Renames each parameter found in `old_params` to the</span>
+<span class="sd">        name in `new_params`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : ``int``</span>
+<span class="sd">            The index of the parameter to be updated.</span>
+<span class="sd">        init_val : ``float``</span>
+<span class="sd">            The initial value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># update the parameter init vals too?</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_params</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">old_params</span><span class="p">[</span><span class="n">i</span><span class="p">])]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">new_params</span><span class="p">[</span><span class="n">i</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="Params.remove_epsilon"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Params.remove_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">remove_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Removes any parameter named &#39;epsilon&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ps</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">))</span></div></div>
+
+
+<span class="n">VALID_VAR_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;algebraic&#39;</span><span class="p">,</span> <span class="s1">&#39;dynamic&#39;</span><span class="p">]</span>
+<span class="n">V_ATTR</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;type&#39;</span><span class="p">]</span>
+<div class="viewcode-block" id="Var"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Var">[docs]</a><span class="k">class</span> <span class="nc">Var</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Base Variable Class.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : ``str``</span>
+<span class="sd">            The name of the variable.</span>
+<span class="sd">        type : ``str``</span>
+<span class="sd">            The variable type. Either &#39;algebraic&#39; or &#39;dynamic&#39;. Defaults to &#39;dynamic&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="s2">&quot;v&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">9999999</span><span class="p">))))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_type</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">,</span> <span class="s2">&quot;dynamic&quot;</span><span class="p">))</span>
+
+<div class="viewcode-block" id="Var.set_name"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Var.set_name">[docs]</a>    <span class="k">def</span> <span class="nf">set_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : ``str``</span>
+<span class="sd">            The name of the variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_name</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INVALID VARIABLE ATTR: </span><span class="se">\&quot;</span><span class="s2">name</span><span class="se">\&quot;</span><span class="s2">: &quot;</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_name</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+<div class="viewcode-block" id="Var.set_type"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Var.set_type">[docs]</a>    <span class="k">def</span> <span class="nf">set_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        t : ``str``</span>
+<span class="sd">            The variable type. Either &#39;algebraic&#39; or &#39;dynamic&#39;.</span>
+<span class="sd">            Defaults to &#39;dynamic&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">temp</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+            <span class="n">VALID_VAR_TYPES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">temp</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_type</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">E</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;INVALID VARIABLE ATTR: </span><span class="se">\&quot;</span><span class="s2">type</span><span class="se">\&quot;</span><span class="s2">: &quot;</span><span class="p">,</span> <span class="n">E</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">valid_type</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        name : ``str``</span>
+<span class="sd">            The name of the variable.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``: var = {&#39;name&#39;: &#39;x1&#39;, &#39;type&#39;: &#39;dynamic&#39;}&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_name</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">valid_type</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">V_ATTR</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{}</span></div>
+
+
+<div class="viewcode-block" id="Vars"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Vars">[docs]</a><span class="k">class</span> <span class="nc">Vars</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A class containing all model variables as ``Var``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">v_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        v_list : ``list``</span>
+<span class="sd">            List of variable dictionaries.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        var_list = [{&#39;name&#39;: &#39;v1&#39;, &#39;type&#39;, &#39;dynamic&#39;}, ...]</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">v_list</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Var</span><span class="p">(</span><span class="o">**</span><span class="n">v</span><span class="p">))</span>
+<span class="c1">#             setattr(self, v[&#39;name&#39;], self.vs[-1]) # will probably reference parameters by index in list, not name</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``: vs_dict = {&quot;vs&quot;: [{&#39;name&#39;: &#39;v1&#39;, &#39;type&#39;, &#39;dynamic&#39;}]}&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;vs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">dict</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">]}</span>
+
+<div class="viewcode-block" id="Vars.set_index_alg"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Vars.set_index_alg">[docs]</a>    <span class="k">def</span> <span class="nf">set_index_alg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the variable at the given index to &#39;algebraic&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : ``int``</span>
+<span class="sd">            The index of the variable to be updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">set_type</span><span class="p">(</span><span class="s2">&quot;algebraic&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Vars.set_index_dyn"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Vars.set_index_dyn">[docs]</a>    <span class="k">def</span> <span class="nf">set_index_dyn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the variable at the given index to &#39;dynamic&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : ``int``</span>
+<span class="sd">            The index of the variable to be updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">set_type</span><span class="p">(</span><span class="s2">&quot;dynamic&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Vars.update_name"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Vars.update_name">[docs]</a>    <span class="k">def</span> <span class="nf">update_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Renames a single variable from `old_name` to `new_name`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        old_name : ``str``</span>
+<span class="sd">            The name to be replaced.</span>
+<span class="sd">        new_name : ``str``</span>
+<span class="sd">            The new name used in place of old_name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">var_index</span><span class="p">(</span><span class="n">old_name</span><span class="p">)]</span><span class="o">.</span><span class="n">set_name</span><span class="p">(</span><span class="n">new_name</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        len : ``int``</span>
+<span class="sd">            The number of variables in the list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Vars.var_index"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Vars.var_index">[docs]</a>    <span class="k">def</span> <span class="nf">var_index</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the index of the given variable name.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var_name : ``str``</span>
+<span class="sd">            The name of the variable to be found.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        index : ``int``</span>
+<span class="sd">            The index of the variable with the given name.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">var_name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Vars.set_var_alg"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Vars.set_var_alg">[docs]</a>    <span class="k">def</span> <span class="nf">set_var_alg</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var_name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the variable with `var_name` as name to &#39;algebraic&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var_name : ``str``</span>
+<span class="sd">            The name of the variable to be updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_index_alg</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">var_index</span><span class="p">(</span><span class="n">var_name</span><span class="p">))</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``: A list of variable names.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">v</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">vs</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="Eq"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eq">[docs]</a><span class="k">class</span> <span class="nc">Eq</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;The Base Equation Class.</span>
+<span class="sd">    May contain two parts, a symbol and an equation.</span>
+
+<span class="sd">    Example</span>
+<span class="sd">    -------</span>
+<span class="sd">    a = b + c =&gt; symbol: a, equation: b + c</span>
+
+<span class="sd">    If the input as an &#39;=&#39;, the left side will be the symbol, the right side</span>
+<span class="sd">    will be the equation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">str_eq</span><span class="p">,</span> <span class="n">equals</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Parses the str_eq into symbol/equation.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        str_eq : ``str``</span>
+<span class="sd">            The equation in string format.</span>
+<span class="sd">        equals : ``bool``</span>
+<span class="sd">            True if the str_eq contains &#39;=&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equals</span> <span class="o">=</span> <span class="n">equals</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">equals</span><span class="p">:</span>
+            <span class="n">temp_eq</span> <span class="o">=</span> <span class="n">str_eq</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span> <span class="o">=</span> <span class="n">temp_eq</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="n">temp_eq</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="n">str_eq</span>
+
+<div class="viewcode-block" id="Eq.change_to_DAE"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eq.change_to_DAE">[docs]</a>    <span class="k">def</span> <span class="nf">change_to_DAE</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">var</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Subtracts the given variable from the right hand side.</span>
+
+<span class="sd">        Used to move derivatives to the right hand side.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        var : ``SymPy.Symbol`` or ``str``</span>
+<span class="sd">            The variable to be subtracted from the right hand side, often a derivative.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">+</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eq</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">latex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``str``: The latex string of the equation.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">latex</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sympy</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sympy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``SymPy Symbol``:The equation as a SymPy object.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">sympify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``set``: The set of all SymPy.Symbol objects in the equation.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sympy</span><span class="o">.</span><span class="n">atoms</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        eq : ``str``</span>
+<span class="sd">            The string representation of the equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; = &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``: Equation dictionary containing SymPy objects.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;sym&quot;</span><span class="p">:</span> <span class="n">sympify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">),</span> <span class="s2">&quot;eq&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sympy</span><span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">str_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``: a = b + c =&gt; {&quot;sym&quot;: &quot;a&quot;, &quot;eq&quot;: &quot;b+c&quot;}.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;sym&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">,</span> <span class="s2">&quot;eq&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sympiy</span><span class="p">}</span>
+
+<div class="viewcode-block" id="Eq.substitute"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eq.substitute">[docs]</a>    <span class="k">def</span> <span class="nf">substitute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">substitutions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Substitutes a list of SymPy substitutions into the equation,</span>
+<span class="sd">        including the symbol.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        substitutions : ``list``</span>
+<span class="sd">            A list of tuples used to subtitute into the equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sympify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">substitutions</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sympify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq</span><span class="p">)</span><span class="o">.</span><span class="n">expand</span><span class="p">()</span><span class="o">.</span><span class="n">subs</span><span class="p">(</span><span class="n">substitutions</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="Eq.multiply_epsilon"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eq.multiply_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">multiply_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Multiply the right hand side by &#39;epsilon&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sympify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq</span><span class="p">)</span><span class="o">*</span><span class="n">sympify</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">))</span></div>
+        <span class="c1"># print(&quot;SELF EQ:&quot;, self.eq)</span>
+
+<div class="viewcode-block" id="Eq.divide_epsilon"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eq.divide_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">divide_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Divide the right hand side by &#39;epsilon&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">sympify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq</span><span class="p">)</span><span class="o">/</span><span class="n">sympify</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Eq.eval_epsilon"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eq.eval_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">eval_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Take the limit as the parameter epsilon goes to zero.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">symbol</span> <span class="o">=</span> <span class="n">gruntz</span><span class="p">(</span><span class="n">sympify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">(),</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eq</span> <span class="o">=</span> <span class="n">gruntz</span><span class="p">(</span><span class="n">sympify</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eq</span><span class="p">)</span><span class="o">.</span><span class="n">simplify</span><span class="p">(),</span> <span class="n">Symbol</span><span class="p">(</span><span class="s2">&quot;epsilon&quot;</span><span class="p">),</span> <span class="mi">0</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Eqs"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eqs">[docs]</a><span class="k">class</span> <span class="nc">Eqs</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;A class containing a list of equations **or** substitutions as</span>
+<span class="sd">    ``Eq``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">str_eq_list</span><span class="p">,</span> <span class="n">equals</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">subs</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        str_eq_list : ``list``</span>
+<span class="sd">            A list of equations represented as strings.</span>
+<span class="sd">        equals : ``bool``</span>
+<span class="sd">            True if there are &#39;=&#39; in the strings.</span>
+<span class="sd">        subs : ``bool``</span>
+<span class="sd">            True of the given list is used as substitutions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span> <span class="o">=</span> <span class="n">subs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">equals</span> <span class="o">=</span> <span class="n">equals</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">str_eq_list</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Eq</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">equals</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">latex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``:A list of the equations in latex formatting.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">eq</span><span class="o">.</span><span class="n">latex</span> <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``: eqs_dict = {&quot;sbs&quot;: [{&#39;sym&#39;: &#39;a&#39;, &#39;eq&#39;: &#39;b + c&#39;}]} as sympy equations.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;sbs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">dict</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">]}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;eqs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">dict</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">]}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">str_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``: eqs_dict = {&quot;sbs&quot;: [{&#39;sym&#39;: &#39;a&#39;, &#39;eq&#39;: &#39;b + c&#39;}]} as strings.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;sbs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">str_dict</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">]}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;eqs&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">str_dict</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">]}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``set``: A set of all SymPy Symbols in all equations.&quot;&quot;&quot;</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">:</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">ret</span> <span class="o">|</span> <span class="n">e</span><span class="o">.</span><span class="n">atoms</span>
+        <span class="k">return</span> <span class="n">ret</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sym_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``:A list of dictionaries containing the SymPy symbolic equations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">eq</span><span class="o">.</span><span class="n">dict</span> <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Eqs.replace_eq"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eqs.replace_eq">[docs]</a>    <span class="k">def</span> <span class="nf">replace_eq</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">,</span> <span class="n">eq</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Replace the `eq` at the given `index`.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        index : ``int``</span>
+<span class="sd">            The index of the equation to replace.</span>
+<span class="sd">        eq : ``str``</span>
+<span class="sd">            The string representation of the new equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span> <span class="o">=</span> <span class="n">Eq</span><span class="p">(</span><span class="n">eq</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">equals</span><span class="p">)</span></div>
+        <span class="c1"># print(&quot;NEW EQ&quot;, self.eqs[index])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``:A list of string representation of the equations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">eq</span><span class="p">)</span> <span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Eqs.substitute"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eqs.substitute">[docs]</a>    <span class="k">def</span> <span class="nf">substitute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">substitutions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Substitutes a list of SymPy `substitutions` into each equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">:</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">substitutions</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Eqs.multiply_epsilon"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eqs.multiply_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">multiply_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Multiply the equation at `index` by &#39;epsilon&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">multiply_epsilon</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Eqs.divide_epsilon"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eqs.divide_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">divide_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Divide the equation at `index` by &#39;epsilon&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">divide_epsilon</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="Eqs.eval_epsilon"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eqs.eval_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">eval_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluate the limit as epsilon goes to zero for each equation.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">:</span>
+            <span class="n">e</span><span class="o">.</span><span class="n">eval_epsilon</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">left_hand_symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``:A list of equation symbols (the left hand side of &#39;=&#39;).&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">e</span><span class="o">.</span><span class="n">symbol</span> <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span> <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">symbol</span><span class="p">]</span>
+
+<div class="viewcode-block" id="Eqs.drop_equation"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.Eqs.drop_equation">[docs]</a>    <span class="k">def</span> <span class="nf">drop_equation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">symbol</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Removes the equation with the given &#39;symbol&#39;.</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        a = b + c =&gt; [{&#39;sym&#39;: a, &#39;eq&#39;: b + c}]</span>
+
+<span class="sd">        drop_equation(a) =&gt; []</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">symbol</span><span class="p">)</span> <span class="o">==</span> <span class="nb">str</span><span class="p">(</span><span class="n">symbol</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+                <span class="k">break</span></div></div>
+
+<div class="viewcode-block" id="EqFull"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.EqFull">[docs]</a><span class="k">class</span> <span class="nc">EqFull</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;This class contains both Substitutions and Equations for a given</span>
+<span class="sd">    equation types.</span>
+
+<span class="sd">    e.g. OBS, IC, RHS, RES, etc.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eq_type</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        eq_type : ``str``</span>
+<span class="sd">            The type of equations.</span>
+<span class="sd">        sbs : ``list``</span>
+<span class="sd">            A list of substitutions, represented as strings.</span>
+<span class="sd">        eqs : ``list``</span>
+<span class="sd">            A list of equations, represented as strings.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_eq_type</span><span class="p">(</span><span class="n">eq_type</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span> <span class="o">=</span> <span class="n">Eqs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;sbs&quot;</span><span class="p">],</span> <span class="n">equals</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">subs</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="s2">&quot;inp&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span> <span class="o">=</span> <span class="n">Eqs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;eqs&quot;</span><span class="p">],</span> <span class="n">equals</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span> <span class="o">=</span> <span class="n">Eqs</span><span class="p">(</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;eqs&quot;</span><span class="p">])</span>
+
+<div class="viewcode-block" id="EqFull.check_subs"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.EqFull.check_subs">[docs]</a>    <span class="k">def</span> <span class="nf">check_subs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Looks for the &#39;sym&#39; in each substitution to be contained in the</span>
+<span class="sd">        equations. If it is not contained in the equations, it is removed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">left_hand_symbols</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">sympify</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">atoms</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">drop_equation</span><span class="p">(</span><span class="n">s</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">latex</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``:{&quot;eq_type&quot;: {&quot;sbs&quot;: [latex_sb, ...], &quot;eqs&quot;: [latex_eq, ...]}}&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;sbs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">latex</span><span class="p">,</span> <span class="s1">&#39;eqs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">latex</span><span class="p">}}</span>
+
+<div class="viewcode-block" id="EqFull.set_eq_type"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.EqFull.set_eq_type">[docs]</a>    <span class="k">def</span> <span class="nf">set_eq_type</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Updates the equation type.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        t : ``str``</span>
+<span class="sd">            The type of equations: &#39;obs&#39;, &#39;ic&#39;, &#39;rhs&#39;, &#39;res&#39;, etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">type</span> <span class="o">=</span> <span class="n">t</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">atoms</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``set``:A set of all SymPy Symbols found in all equations.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">atoms</span> <span class="o">|</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">atoms</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``:{&quot;eq_type&quot;: {&quot;sbs&quot;: [sym_sb, ...], &quot;eqs&quot;: [sym_eq, ...]}}&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">:</span> <span class="p">{</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">dict</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">dict</span><span class="p">}}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">str_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``dict``:{&quot;eq_type&quot;: {&quot;sbs&quot;: [str_sb, ...], &quot;eqs&quot;: [str_eq, ...]}}&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="bp">self</span><span class="o">.</span><span class="n">type</span><span class="p">:</span> <span class="p">{</span><span class="s1">&#39;sbs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">list</span><span class="p">,</span> <span class="s1">&#39;eqs&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">list</span><span class="p">}}</span>
+
+<div class="viewcode-block" id="EqFull.substitute"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.EqFull.substitute">[docs]</a>    <span class="k">def</span> <span class="nf">substitute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">substitutions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Substitute a list of SymPy substitutions into all sbs and eqs.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        substitutions : ``list``</span>
+<span class="sd">            A list of tuples used for SymPy substitutions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">substitutions</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">substitutions</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EqFull.eval_epsilon"><a class="viewcode-back" href="../../../source/mbam.modeling.html#mbam.modeling.elements.EqFull.eval_epsilon">[docs]</a>    <span class="k">def</span> <span class="nf">eval_epsilon</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Evaluate epsilon for all sbs and eqs.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">eval_epsilon</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">eval_epsilon</span><span class="p">()</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">sbs_sym_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``:A list of symbolic sbs.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sbs</span><span class="o">.</span><span class="n">sym_list</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">eqs_sym_list</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``:A list of symbolic eqs.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">sym_list</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">eq_symbols</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;``list``:A list of symbolic left hand side symbols.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">eqs</span><span class="o">.</span><span class="n">left_hand_symbols</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2018, Dane Bjork.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'1.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

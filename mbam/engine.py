@@ -34,7 +34,7 @@ class Engine:
         """Runs the geodesic, infers the limit, attempts to evaluate the limit.
         Continues to repeat the process until a failure.
 
-        Parmaters
+        Parameters
         ---------
         printing : ``bool``
             Prints out each new model in latex formating if True.

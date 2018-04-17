@@ -11,7 +11,7 @@ it seems that is not currently an option.
 
 import time
 import zmq
-from mbammongo import *
+from .mongo import *
 
 class Collector:
     """Uses ZMQ sockets to connect to the Julia Geodesic currently running,
