@@ -86,7 +86,7 @@ the evaluator will need to be given the limits as an input.
 
 
 # API Reference
-The docs can be found [here.](www.automatedmbam.readthedocs.io/)
+The docs can be found [here.](http://automatedmbam.readthedocs.io/)
 
 # Tests
 The current tests can be run by using the Engine and the engine and the user interface
