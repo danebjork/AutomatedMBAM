@@ -23,7 +23,7 @@ class SingularLimit:
 
     def check_var_and_epsilon(self):
         """Checks every variable to see if one is found with every instance of
-        epsilon. *May also need to add check for the derivative.
+        epsilon. *May also need to add check for the derivative.*
 
         Returns
         -------
@@ -338,9 +338,10 @@ class SingularLimit:
         atoms = self.dae.atoms
         while len(new_vars) < num_vars:
             temp_var = Symbol("x_{}".format(i))
-            if temp_var not in atoms:
+            if temp_var not in atoms and str(temp_var) not in self.dae.used_vars:
                 atoms.add(temp_var)
                 new_vars.append(str(temp_var))
+                self.dae.used_vars.append(str(temp_var))
             i += 1
         return new_vars
 

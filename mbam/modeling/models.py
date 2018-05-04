@@ -18,6 +18,7 @@ class Base:
     def __init__(self, model_dict):
         """Parses the parameters, variables, and initializes the equations dict.
         """
+        self.used_vars = []
         self.type = model_dict['type'].lower()
         self.base_name = model_dict['name']
         self.name = model_dict['name']
@@ -132,7 +133,7 @@ class Base:
     def update_params(self, old_p, new_p):
         """Update the model's parameters from `old_p` to `new_p`.
 
-        Paramters
+        Parameters
         ---------
         old_p : ``list``
             The list of old parameters.
@@ -161,7 +162,6 @@ class Base:
 
     def is_valid(self):
         """Checks if all parameters are in equation, and all values finite.
-        ***Needs to check if epsilon is gone!
 
         Returns
         -------

@@ -46,7 +46,7 @@ class Engine:
                 self.curr_model = self.curr_iter.N_minus_1
                 self.curr_id = self.curr_iter.N_minus_1_id
                 if printing:
-                    self.print_latex(limit)
+                    self.print_latex(self.curr_iter.limits)
             else:
                 print("FAIL on Model: ", self.curr_id)
                 break
@@ -85,8 +85,8 @@ class Engine:
             The limit dictionary that was just evaluated.
         """
         model = copy.deepcopy(self.curr_model)
-        print(print_limit(limit))
-        model.substitute(label_subs)
+        print(self.print_limit(limit))
+        # model.substitute(label_subs)
         print(model.latex)
 
     def print_limit(self, limit):
