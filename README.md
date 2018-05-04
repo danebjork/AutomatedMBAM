@@ -80,12 +80,13 @@ Install Julia v0.6
 Pkg.add("ZMQ")
 ```
 Other packages need to be installed. These are currently not open sourced.
-However, if the limits of the models are known, this project can still be used, only
-the geodesic cannot be evaluated.
+However, if the limits of the model are known, this project can still be used. These
+additional Julia packages are used to determine these limits. Without these packages
+the evaluator will need to be given the limits as an input.
 
 
 # API Reference
-The docs can be found on readthedocs [here.](www.automatedmbam.readthedocs.io/)
+The docs can be found [here.](www.automatedmbam.readthedocs.io/)
 
 # Tests
 The current tests can be run by using the Engine and the engine and the user interface
