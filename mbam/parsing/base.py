@@ -18,7 +18,8 @@ class BaseParser:
         """
         self.mm = mbam_model
         self.create_default_options()
-        self.data_path = data_path
+        # self.data_path = data_path
+        self.data_path = 'temp.h5' # os.path.join(os.pardir, 'temp.h5') # data should be in parent directory
         self.script = '\n'
         self.dir = os.path.join("julia_scripts", "models")
         self.name = self.mm.name
@@ -109,8 +110,8 @@ class BaseParser:
 
     def write_data(self):
         ret = "import HDF5\n"
-        ret += 'ydata = HDF5.h5read("%s", "/ydata")\n' % self.data_path
-        ret += '_t = HDF5.h5read("%s", "/t")\n' % self.data_path
+        ret += 'ydata = HDF5.h5read("%s", "/ydata")\n' % self.data_path.replace("\\", "\\\\")
+        ret += '_t = HDF5.h5read("%s", "/t")\n' % self.data_path.replace("\\", "\\\\")
         if not self.options['weights']:
             ret += 'data = ParametricModels.OLSData("%s", ydata)\n' % self.name
         else:
@@ -233,5 +234,5 @@ class BaseParser:
             A string representation of a full julia model script.
         """
         self.init_models_dir()
-        with open(self.file_path, "w") as jl:
+        with open(self.file_path, "w", encoding="utf-8") as jl:
             jl.write(script)

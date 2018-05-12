@@ -60,7 +60,7 @@ class GeodesicParser:
                 "use_svd": ``bool``,
 
                 "use_pinv": ``bool``,
-                
+
             }
 
         """
@@ -74,7 +74,7 @@ class GeodesicParser:
 
     def save_to_file(self, script):
         self.init_geos_dir()
-        with open(self.file_path, "w") as jl:
+        with open(self.file_path, "w", encoding="utf-8") as jl:
             jl.write(script)
 
     def write_geo_script(self):
@@ -87,8 +87,13 @@ class GeodesicParser:
         ret = 'module T\n'
         ret += 'import Models\n'
         ret += 'import Geometry\n'
-        ret += 'include("{0}")\n'.format(self.model_path)
-        ret += 'include("{0}")\n'.format(self.collector_path)
+
+        # changing file referencing to relative file paths!
+        # ret += 'include("{0}")\n'.format(self.model_path)
+        ret += 'include("{0}")\n'.format(os.path.join(os.pardir, 'models', self.file_name)).replace("\\", "\\\\")
+        # ret += 'include("{0}")\n'.format(self.collector_path)
+        ret += 'include("{0}")\n'.format(os.path.join(os.pardir, os.pardir, 'geosender.jl')).replace("\\", "\\\\")
+
         ret += 'model = {0}_Model.model\n'.format(self.model_name)
         ret += 'xi = {0}_Model.xi\n'.format(self.model_name)
         ret += 'v = Geometry.Geodesics.vi(xi, model.jacobian, model.Avv)\n'

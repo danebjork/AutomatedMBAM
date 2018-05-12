@@ -51,7 +51,6 @@ class MData:
         byte_str : ``byte_str``
             The hdf5 data in ``byte_str`` format.
         """
-        #data = await ws.recv()
         # Save the bytes to a file
         with open(os.path.join(os.getcwd(), "temp.h5"), 'wb') as h:
             h.write(byte_str)
@@ -104,10 +103,10 @@ class MData:
         Parameters
         ----------
         full_path : ``str``
-            The path to where the file will be saved. Defaults to "./temp.h5".
+            The path to where the file will be saved. Defaults to "./julia_scripts/temp.h5".
         """
         if full_path == "temp.h5":
-            self.file_path = os.path.join(os.getcwd(), "temp.h5")
+            self.file_path = "temp.h5"
         else:
             self.file_path = full_path
         if self.data_json:

@@ -224,7 +224,7 @@ class MMongo:
         it has completed.
         """
         if exception:
-            done = "excpetion"
+            done = "exception"
         else:
             done = "done"
         self.geo.update_one({"_id":ObjectId(geo_id)}, {"$set": {"done": done}})
