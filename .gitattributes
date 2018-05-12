@@ -1,7 +1,7 @@
-static/ace/* linguist-vendored=false
-static/js/MathJax/* linguist-vendored=false
-static/js/bootstrap.min.js linguist-vendored=false
-static/js/jquery-2.1.1.min.js linguist-vendored=false
-static/js/jquery-ui/* linguist-vendored=false
-static/js/plotly-latest.min.js linguist-vendored=false
+static/ace/* linguist-vendored
+static/js/MathJax/* linguist-vendored
+static/js/bootstrap.min.js linguist-vendored
+static/js/jquery-2.1.1.min.js linguist-vendored
+static/js/jquery-ui/* linguist-vendored
+static/js/plotly-latest.min.js linguist-vendored
 
