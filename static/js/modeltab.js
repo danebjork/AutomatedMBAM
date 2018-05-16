@@ -431,7 +431,7 @@ document.getElementById("model-param-add").onclick = function(){
 }
 
 ModelTab.addParam = function(){
-    console.log("ADDED");
+    console.log("ADDED PARAM");
     var name = document.getElementById("new-param-name").value;
     var transform = document.getElementById("new-param-transform").value;
     var initVal = document.getElementById("new-param-init-val").value;
@@ -481,10 +481,10 @@ ModelTab.removeVarBtn.onclick = function() {
     var child = document.getElementById(visibleVars[0].id);
     ModelTab.varList.removeChild(child);
     ModelTab.varSearch.value = "";
-    searchVars("");
+    ModelTab.searchVars("");
 }
 
-function searchVars(text){
+ModelTab.searchVars = function(text){
     if (text.length == 0){
         ModelTab.showAllListItems(ModelTab.varList);
         $("#model-var-remove-btn").button("disable");
@@ -541,7 +541,7 @@ ModelTab.collectSingleVarData = function(li){
 
 $("#model-var-search").bind('input', function() {
     var text = $(this).val();
-    searchVars(text);
+    ModelTab.searchVars(text);
 });
 
 ModelTab.fillVarTab = function(vars) {
@@ -560,14 +560,17 @@ ModelTab.addSingleVarTab = function(myVar){
     li.appendChild(varName);
     li.appendChild(this.createSelector(this.varTypeList, myVar.type))
     this.varList.appendChild(li);
+    console.log("ADDED LI");
 }
+
+console.log("MODEL TAB LOADED");
 
 document.getElementById("model-var-add").onclick = function(){
     ModelTab.addVarDialog.dialog("open");
 }
 
 ModelTab.addVar = function(){
-    console.log("ADDED");
+    console.log("ADDED VAR");
     var name = document.getElementById("new-var-name").value;
     var type = document.getElementById("new-var-type").value;
     // 'init_val': 1.5, 'name': 'x10', 'transform': 'constant'
@@ -591,13 +594,15 @@ ModelTab.addVarDialog = $( "#model-var-dialog" ).dialog({
     }
   },
   close: function() {
+    console.log("RESET")
     addVarForm[ 0 ].reset();
   }
 });
 
 addVarForm = ModelTab.addVarDialog.find( "form" ).on( "submit", function( event ) {
   event.preventDefault();
-  console.log("form");
+  // console.log("form");
+  console.log("ADD VAR FORM")
   ModelTab.addVar();
 });
 

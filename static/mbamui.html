@@ -358,6 +358,23 @@
       </form>
     </div>
 
+    <!-- EVAL ADD VARIABLE MODAL -->
+      <div id="eval-var-dialog" title="Add a New Variable" style="overflow:hidden;">
+        <form style="margin-top:2%;">
+          <fieldset style="border-style: none;">
+            <label for="eval-var-name" style="margin:1%; width:48%; float:left;text-align:center;">Name</label>
+            <label for="eval-var-type" style="margin:1%; width:48%; float:left;text-align:center;">Type</label>
+            <input type="text" name="eval-var-name" id="eval-var-name" style="width:48%; float:left; margin:1%; " class="text ui-widget-content ui-corner-all">
+            <select name="eval-var-type" id="eval-var-type" style="width:48%; float:left; margin:1%; ">
+                <option value="algebraic">algebraic</option>
+                <option value="dynamic">dynamic</option>
+            </select>
+            <!-- Allow form submission with keyboard without duplicating the dialog button -->
+            <input type="submit" tabindex="-1" style="position:absolute; top:-1000px">
+          </fieldset>
+        </form>
+      </div>
+
     <!-- ADD Equation MODAL -->
       <div id="eval-eq-dialog" title="Select Equations">
         <form style="margin-top:2%;">

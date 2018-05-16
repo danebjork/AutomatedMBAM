@@ -184,10 +184,11 @@ EvalTab.removeVarBtn.onclick = function() {
     var child = document.getElementById(visibleVars[0].id);
     EvalTab.varList.removeChild(child);
     EvalTab.varSearch.value = "";
-    searchVars("");
+    EvalTab.searchVars("");
 }
 
-function searchVars(text){
+EvalTab.searchVars = function(text){
+    console.log("EVAL SEARCH");
     if (text.length == 0){
         EvalTab.showAllListItems(EvalTab.varList);
         $("#eval-var-remove-btn").button("disable");
@@ -244,7 +245,7 @@ EvalTab.collectSingleVarData = function(li){
 
 $("#eval-var-search").bind('input', function() {
     var text = $(this).val();
-    searchVars(text);
+    EvalTab.searchVars(text);
 });
 
 EvalTab.fillVarTab = function(vars) {
@@ -266,14 +267,14 @@ EvalTab.addSingleVarTab = function(myVar){
     this.varList.appendChild(li);
 }
 
-document.getElementById("model-var-add").onclick = function(){
+document.getElementById("eval-var-add").onclick = function(){
     EvalTab.addVarDialog.dialog("open");
 }
 
 EvalTab.addVar = function(){
     console.log("ADDED");
-    var name = document.getElementById("new-var-name").value;
-    var type = document.getElementById("new-var-type").value;
+    var name = document.getElementById("eval-var-name").value;
+    var type = document.getElementById("eval-var-type").value;
     // 'init_val': 1.5, 'name': 'x10', 'transform': 'constant'
     var newVar = {
         'type': type,
@@ -284,7 +285,7 @@ EvalTab.addVar = function(){
 }
 
 
-EvalTab.addVarDialog = $( "#model-var-dialog" ).dialog({
+EvalTab.addVarDialog = $( "#eval-var-dialog" ).dialog({
   autoOpen: false,
   width: 400,
   modal: true,
@@ -295,11 +296,11 @@ EvalTab.addVarDialog = $( "#model-var-dialog" ).dialog({
     }
   },
   close: function() {
-    addVarForm[ 0 ].reset();
+    evalVarForm[ 0 ].reset();
   }
 });
 
-addVarForm = EvalTab.addVarDialog.find( "form" ).on( "submit", function( event ) {
+evalVarForm = EvalTab.addVarDialog.find( "form" ).on( "submit", function( event ) {
   event.preventDefault();
   console.log("form");
   EvalTab.addVar();
