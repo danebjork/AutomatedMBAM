@@ -61,14 +61,14 @@ geoOptionBtn.onclick = function() {
     };
     ws.send(JSON.stringify(send));
 }
-// var juliaOptionBtn = document.getElementById("julia-options");
-// juliaOptionBtn.onclick = function() {
-//     send = {
-//         "type": "julia-options",
-//         "options": ModelTab.getJuliaOptions(),
-//     };
-//     ws.send(JSON.stringify(send));
-// }
+var juliaOptionBtn = document.getElementById("julia-options");
+juliaOptionBtn.onclick = function() {
+    send = {
+        "type": "julia-options",
+        "options": ModelTab.getJuliaOptions(),
+    };
+    ws.send(JSON.stringify(send));
+}
 var simplifyBtn = document.getElementById("simplify-btn");
 simplifyBtn.onclick = function(){
     Workspace.simplify(ws);
