@@ -114,6 +114,7 @@ function updateModel(){
     // Send the Model to the backend
     console.log(ModelTab.data);
     ws.send(JSON.stringify({"type": "save", "md": ModelTab.data}));
+    $("#julia-options").click();
     // ws.send(JSON.stringify(ModelTab.data));
     // Send the options for the Julia model
     // ws.send("julia-generate");
