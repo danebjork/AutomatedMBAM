@@ -1,5 +1,6 @@
 from sympy.printing import julia_code
 from .basediff import BaseDiffParser
+import logging
 
 class ODEParser(BaseDiffParser):
     """Used for parsing ODE models.
@@ -15,11 +16,11 @@ class ODEParser(BaseDiffParser):
             model.
         """
         super().__init__(mbam_model, data_path)
-        self.write_script()
-        self.save_to_file(self.script)
+        self.logger = logging.getLogger("MBAM.ODEParser")
+        self.logger.debug("Initializing ODEParser")
 
     def write_script(self):
-        self.script += self.write_imports()
+        self.script = self.write_imports()
         self.script += self.write_params()
         self.script += self.write_inputs()
 
@@ -77,4 +78,4 @@ class ODEParser(BaseDiffParser):
         return ret
 
     def write_model(self):
-        return 'parametricmodel = @ParametricModels.ODEModel(data, %s, ic, rhs, obs, _t, (), Tuple{Symbol, Any}[])\n' % self.name
+        return 'parametricmodel = @ParametricModels.ODEModel(data, %s, ic, rhs, obs, _t, %s, %s)\n' %(self.name, self.parse_args(), self.parse_kwargs())

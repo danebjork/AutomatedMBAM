@@ -15,11 +15,11 @@ class FunctionParser(BaseDiffParser):
             model.
         """
         super().__init__(mbam_model, data_path)
-        self.write_script()
-        self.save_to_file(self.script)
+        self.logger = logging.getLogger("MBAM.FunctionParser")
+        self.logger.debug("Initializing FunctionParser")
 
     def write_script(self):
-        self.script += self.write_imports()
+        self.script = self.write_imports()
         self.script += self.write_params()
         self.script += self.write_inputs()
 

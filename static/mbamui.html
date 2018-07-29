@@ -56,11 +56,11 @@
         <div id="model-general">
 
             <input id="model-id"> </input> <button class="jq-ui-btn" id="model-load"> Load Model ID</button>
-            <h5 style="margin-top:5%;">Model Name</h5>
+            <h5 style="margin-top:2%;">Model Name</h5>
             <input id="model-name"> </input>
-            <h5 style="margin-top:5%;">Model Class</h5>
+            <h5 style="margin-top:2%;">Model Class</h5>
             <input id="model-class">
-            <div id="general-select"  style="margin-top: 5%; margin-bottom: 5%;">
+            <div id="general-select"  style="margin-top: 2%; margin-bottom: 2%;">
                 <h5> Select Model Type </h5>
                 <select id="model-type-select">
                     <option value="" selected disabled hidden>Model Types</option>
@@ -72,9 +72,20 @@
             <h5>Load Model File</h5>
             <input id="model-load-btn" type="file"></input>
             <div id="model-julia-opt" style="border: solid 1px;">
-                <h5>Julia Options</h5>
-                <button class="jq-ui-btn" id="julia-options">Update Options</button>
-                <input type="checkbox" id="model-bare-opt">Include Bare Model</input>
+                <h4>Julia Options</h4>
+                <h5 style="margin-top:2%;">
+                  <input type="checkbox" id="model-bare-opt">Include Bare Model</input>
+		</h5>
+
+                <h5 style="margin-top:2%;">Model Imports:
+		  <input id="model-imports" size="40"></input>
+		</h5>
+                <h5 style="margin-top:2%;">Model Arguments:
+		  <input id="model-args" size="40"></input>
+		</h5>
+                <h5 style="margin-top:2%;">Model Keyword Arguments:
+		  <input id="model-kwargs" size="40"></input>
+		</h5>
             </div>
         </div>
         <!-- MODEL DATA TAB -->

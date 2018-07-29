@@ -10,16 +10,19 @@ from .iteration import Iteration
 from .mongo import MMongo
 import numpy as np
 from sympy import gruntz, Symbol, sympify, simplify
+import logging
 
 class MbamUI:
     def __init__(self):
+        self.logger = logging.getLogger("MBAM.UI")
+        self.logger.debug("Initialzing MBAMUI")
         self.model = None
         self.mongo = MMongo()
         self.model_id = None
         self.iter = None
         self.data = MData()
 
-    def save_model(self, model_dict):
+    def save_model(self, model_dict, options):
         """Saves a model dictionary to the database and creates a model object.
 
         Parameters
@@ -32,14 +35,16 @@ class MbamUI:
         ``dict``
             A dictionary containing model info to be sent to the UI.
         """
+        self.logger.debug("Saving model with options = %s" %options)
         # save the model dictionary as a model
         self.save_model_dict(model_dict)
         # save the model into the database with the data id
 
         # Update data_id if not existing~~
         self.model_id = self.mongo.save_model(self.model, self.data.id)
-        print("SAVED MODEL: ", self.model_id)
+        self.logger.info("Saved model: %s" %self.model_id)
         self.begin_iteration()
+        self.iter.write_model_script(options) # Options should probably be saved in the database with the rest of the model
         return self.send_save_done()
 
     def save_model_dict(self, model_dict):

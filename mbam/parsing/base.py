@@ -2,6 +2,7 @@ import os
 from sympy.printing import julia_code
 from sympy import Symbol
 import json
+import logging
 
 class BaseParser:
     """Parent class for all model parsers.
@@ -16,6 +17,8 @@ class BaseParser:
             The full path to the hdf5 file to be included in the
             model.
         """
+        self.logger = logging.getLogger("MBAM.BaseParser")
+        self.logger.debug("Initializing BaseParser")
         self.mm = mbam_model
         self.create_default_options()
         # self.data_path = data_path
@@ -33,11 +36,10 @@ class BaseParser:
         Parameters
         ----------
         options : ``dict``
-            Must follow format: {"bare": ``bool``, "weights": ``bool``}
+            Must follow format: {"bare": ``bool``, "weights": ``bool``, "imports": ``string``, "args": ``string``, "kwargs": ``string``}
         """
+        self.logger.debug("Updating options: %s" %options)
         self.options = options
-        self.write_script()
-        self.save_to_file(self.script)
 
     def create_default_options(self):
         """ Used until options are updated with update_options
@@ -45,6 +47,9 @@ class BaseParser:
         self.options = {}
         self.options['bare'] = False
         self.options['weights'] = False
+        self.options["imports"] = ""
+        self.options["args"] = ""
+        self.options["kwargs"] = ""
 
     def create_julia_swap(self):
         """ Generates a list of sympy substitution tuples to sub out sympy vars
@@ -88,7 +93,13 @@ class BaseParser:
         ret = 'module {0}_Model\n\n'.format(self.name)
         ret += 'import Models\n'
         ret += 'import ParametricModels\n'
-        ret += 'using Parameters\n\n'
+        ret += 'using Parameters\n'
+        self.logger.debug("Extra modules to import: %s" %self.options["imports"])
+        if self.options["imports"] != "":
+
+            ret += "import %s\n\n" %self.options["imports"]
+        else:
+            ret += "\n"
         return ret
 
     def write_params(self):
@@ -233,6 +244,29 @@ class BaseParser:
         script: ``str``
             A string representation of a full julia model script.
         """
+        self.logger.info("Writing script to file: %s" %self.file_path)
         self.init_models_dir()
         with open(self.file_path, "w", encoding="utf-8") as jl:
             jl.write(script)
+
+    def parse_args(self):
+        self.logger.debug("Parsing args: %s", self.options["args"])
+        if self.options["args"] == "":
+            args = "()"
+        else:
+            args = "(%s,)" %self.options["args"]
+        self.logger.debug("Parsed args = %s" %args)
+        return args
+
+    def parse_kwargs(self):
+        self.logger.debug("Parsing kwargs: %s", self.options["kwargs"])
+        if self.options["kwargs"] == "":
+            kwargs = "Tuple{Symbol, Any}[]"
+        else:
+            kwargs = "Tuple{Symbol, Any}["
+            for kwarg in self.options["kwargs"].split(','):
+                s,v = kwarg.split("=")
+                kwargs += "(:%s, %s)," %(s.strip(),v.strip())
+            kwargs += "]"
+        self.logger.debug("Parsed kwargs = %s" %kwargs)
+        return kwargs

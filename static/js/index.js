@@ -61,14 +61,6 @@ geoOptionBtn.onclick = function() {
     };
     ws.send(JSON.stringify(send));
 }
-var juliaOptionBtn = document.getElementById("julia-options");
-juliaOptionBtn.onclick = function() {
-    send = {
-        "type": "julia-options",
-        "options": ModelTab.getJuliaOptions(),
-    };
-    ws.send(JSON.stringify(send));
-}
 var simplifyBtn = document.getElementById("simplify-btn");
 simplifyBtn.onclick = function(){
     Workspace.simplify(ws);
@@ -113,7 +105,7 @@ function updateModel(){
     EvalTab.fillVarTab(ModelTab.modelData.vs);
     // Send the Model to the backend
     console.log(ModelTab.data);
-    ws.send(JSON.stringify({"type": "save", "md": ModelTab.data}));
+    ws.send(JSON.stringify({"type": "save", "md": ModelTab.data, "options": ModelTab.getJuliaOptions()}));
     // $("#julia-options").click();
     // ws.send(JSON.stringify(ModelTab.data));
     // Send the options for the Julia model

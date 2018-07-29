@@ -11,12 +11,15 @@ temps: limit template storage.
 """
 from pymongo import MongoClient
 from bson.objectid import ObjectId
+import logging
 
 class MMongo:
     def __init__(self):
         """Starts the client, connects to the 'mbam' database and creates
         shortcuts to the collections.
         """
+        self.logger = logging.getLogger("MBAM.MMongo")
+        self.logger.debug("Initializing MMongo")
         client = MongoClient()
         self.db = client['mbam']
         self.geo = self.db['geos']

@@ -116,6 +116,9 @@ ModelTab.getJuliaOptions = function(){
     var options = {};
     options.bare = document.getElementById("model-bare-opt").checked;
     options.weights = this.data.weights.length > 0;
+    options.imports = document.getElementById("model-imports").value;
+    options.args = document.getElementById("model-args").value;
+    options.kwargs = document.getElementById("model-kwargs").value;    
     return options;
 }
 

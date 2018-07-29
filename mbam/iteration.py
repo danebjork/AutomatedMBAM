@@ -14,6 +14,7 @@ from copy import deepcopy
 # from reparameterize import Reparams
 from sympy import sympify, solveset
 import os
+import logging
 
 class Iteration:
     def __init__(self, model, model_id, data_path):
@@ -27,6 +28,8 @@ class Iteration:
         data_path : ``str``
             The full path to the hdf5 data file for the model.
         """
+        self.logger = logging.getLogger("MBAM.Iteration")
+        self.logger.debug("Initializing Iteration")
         self.N = model
         self.N_id = str(model_id)
         self.mongo = MMongo()
@@ -37,6 +40,11 @@ class Iteration:
         self.geo_id = None
         self.init_parsers()
 
+    def write_model_script(self, options):
+        self.add_julia_options(options)
+        self.julia.write_script()
+        self.julia.save_to_file(self.julia.script)
+        
     def init_geodesic(self):
         """Creates the Geodesic object, and retrieves its id.
         """

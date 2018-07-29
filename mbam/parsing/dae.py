@@ -19,8 +19,8 @@ class DAEParser(BaseDiffParser):
         super().__init__(mbam_model, data_path)
         self.add_derivs_to_julia_swap()
         self.create_icd_swap()
-        self.write_script()
-        self.save_to_file(self.script)
+        self.logger = logging.getLogger("MBAM.DAEParser")
+        self.logger.debug("Initializing DAEParser")
 
     def add_derivs_to_julia_swap(self):
         """ Adding derivatives to the substitution list of julia vars for
@@ -34,7 +34,7 @@ class DAEParser(BaseDiffParser):
             self.julia_swap.append((v + "dot", '_dx[{0}]'.format(i+1)))
 
     def write_script(self):
-        self.script += self.write_imports()
+        self.script = self.write_imports()
         self.script += self.write_params()
         self.script += self.write_inputs()
 
@@ -145,4 +145,4 @@ class DAEParser(BaseDiffParser):
         return ret
 
     def write_model(self):
-        return 'parametricmodel = @ParametricModels.DAEModel(data, %s, ic, res, obs, _t, differential_vars, (), Tuple{Symbol, Any}[])\n' % self.name
+        return 'parametricmodel = @ParametricModels.DAEModel(data, %s, ic, res, obs, _t, differential_vars, %s, %s)\n' %(self.name, self.parse_args(), self.parse_kwargs())
