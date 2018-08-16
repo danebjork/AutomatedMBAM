@@ -80,7 +80,7 @@ class DAEParser(BaseDiffParser):
 
     def write_ic_subs(self):
         all_subs = ""
-        for i, eq in enumerate(self.mm.model_eqs['res'].sbs.dict['sbs']):
+        for i, eq in enumerate(self.mm.model_eqs['ic'].sbs.dict['sbs']):
             eq = str(eq['sym']) + " = " + julia_code(sympify(eq['eq']).subs(self.icd_swap).subs(self.julia_swap))
             all_subs += (eq + "\n")
         return all_subs
