@@ -44,20 +44,20 @@ class ODEParser(BaseDiffParser):
 
     def write_bare_model(self):
         ret = ''
-        ret += 'zerodata = ParametricModels.OLSData("%s"_zero, zeros(ydata))\n' % self.name
+        ret += 'zerodata = ParametricModels.OLSData("%s"_zero, zero(ydata))\n' % self.name
         ret += 'bareparametricmodel = @ParametricModels.ODEModel(zerodata, %s, ic, rhs, obs, _t, (), Tuple{Symbol, Any}[])\n' % self.name
         ret += self.write_param_transforms(bare=True)
         ret += 'modelbare = Models.Model(bareparametricmodel)\n'
         return ret
 
     def write_ic(self):
-        ret = 'function ic{T<:Real}(ps::%s{T})\n' % self.name
+        ret = 'function ic(ps::%s{T}) where T <: Real\n' % self.name
         ret += self.write_substitutions(self.mm.model_eqs['ic'].sbs_sym_list)
         ret += self.write_equation_return(self.mm.model_eqs['ic'].eqs_sym_list)
         return ret
 
     def write_rhs(self):
-        ret = 'function rhs{T<:Real}(ps::%s{T}, _t, _x, _dx)\n' % self.name
+        ret = 'function rhs(ps::%s{T}, _t, _x, _dx) where T <: Real\n' % self.name
         ret += self.write_substitutions(self.mm.model_eqs['rhs'].sbs_sym_list)
         ret += "\t_inp = inp(ps, _t)\n"
         ret += self.write_rhs_equations()

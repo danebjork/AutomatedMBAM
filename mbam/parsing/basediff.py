@@ -18,7 +18,7 @@ class BaseDiffParser(BaseParser):
         super().__init__(mbam_model, data_path)
 
     def write_obs(self):
-        ret = 'function obs{T<:Real}(ps::%s{T}, _t, _x)\n' % self.name
+        ret = 'function obs(ps::%s{T}, _t, _x) where T <: Real\n' % self.name
         ret += self.write_substitutions(self.mm.model_eqs['obs'].sbs_sym_list)
         ret += self.write_equation_return(self.mm.model_eqs['obs'].eqs_sym_list)
         return ret

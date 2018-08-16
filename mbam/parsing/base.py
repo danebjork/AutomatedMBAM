@@ -83,7 +83,7 @@ class BaseParser:
     ## model specific
     def write_bare_model(self):
         ret = ''
-        ret += 'zerodata = ParametricModels.OLSData("%s"_zero, zeros(ydata))\n' % self.name
+        ret += 'zerodata = ParametricModels.OLSData("%s"_zero, zero(ydata))\n' % self.name
         ret += 'bareparametricmodel = @ParametricModels.ODEModel(zerodata, %s, ic, rhs, obs, _t, (), Tuple{Symbol, Any}[])\n' % self.name
         ret += self.write_param_transforms(bare=True)
         ret += 'modelbare = Models.Model(bareparametricmodel)\n'
@@ -103,7 +103,7 @@ class BaseParser:
         return ret
 
     def write_params(self):
-        ret = '@with_kw type %s{T<:Real} <: ParametricModels.AbstractParameterSpace{T} @deftype T\n' % self.name
+        ret = '@with_kw mutable struct %s{T<:Real} <: ParametricModels.AbstractParameterSpace{T} @deftype T\n' % self.name
         for p in self.mm.model_ps.dict['ps']:
             ret += '\t'
             ret += p['name']
@@ -114,7 +114,7 @@ class BaseParser:
         return ret
 
     def write_inputs(self):
-        ret = 'function inp{T<:Real}(ps::%s{T}, _t)\n' % self.name
+        ret = 'function inp(ps::%s{T}, _t) where T <: Real\n' % self.name
         ret += self.write_substitutions(self.mm.model_eqs['inp'].sbs_sym_list)
         ret += self.write_equation_return(self.mm.model_eqs['inp'].eqs_sym_list)
         return ret

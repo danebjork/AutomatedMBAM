@@ -58,7 +58,7 @@ class DAEParser(BaseDiffParser):
 
     def write_bare_model(self):
         ret = ''
-        ret += 'zerodata = ParametricModels.OLSData("%s"_zero, zeros(ydata))\n' % self.name
+        ret += 'zerodata = ParametricModels.OLSData("%s"_zero, zero(ydata))\n' % self.name
         ret += 'bareparametricmodel = @ParametricModels.DAEModel(zerodata, %s, ic, res, obs, _t, (), Tuple{Symbol, Any}[])\n' % self.name
         ret += self.write_param_transforms(bare=True)
         ret += 'modelbare = Models.Model(bareparametricmodel)\n'
@@ -88,7 +88,7 @@ class DAEParser(BaseDiffParser):
     def write_ic(self):
         """Specialty function for writing the IC function.
         """
-        ret = 'function ic{T<:Real}(ps::%s{T})\n' % self.name
+        ret = 'function ic(ps::%s{T}) where T <: Real\n' % self.name
         ret += self.write_ic_subs()
         ret += self.write_substitutions(self.mm.model_eqs['ic'].sbs_sym_list)
         ret += '\treturn '

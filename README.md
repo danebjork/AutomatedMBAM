@@ -75,15 +75,24 @@ pip install -r requirements.txt
 ```
 
 ### Julia
-Install Julia v0.6
+Install Julia v1.0
 ```julia
 Pkg.add("ZMQ")
+Pkg.add("Parameters")
+Pkg.add("HDF5")
+Pkg.add("JSON")
+Pkg.add("https://pulsar.byu.edu/Modeling/Geometry.jl.git")
+Pkg.add("https://pulsar.byu.edu/Modeling/Models.jl.git")
+Pkg.add("https://pulsar.byu.edu/Modeling/ParametricModels.jl.git")
 ```
-Other packages need to be installed. These are currently not open sourced.
-However, if the limits of the model are known, this project can still be used. These
-additional Julia packages are used to determine these limits. Without these packages
-the evaluator will need to be given the limits as an input.
 
+In addition, some recommended packages that may be useful for constructing models
+
+``` julia
+Pkg.add("https://pulsar.byu.edu/Modeling/SmoothApproximations.jl.git")
+Pkg.add("https://pulsar.byu.edu/Modeling/ModularLM.jl.git")
+Pkg.add("https://pulsar.byu.edu/Modeling/ExampleModels.jl.git")
+```
 
 # API Reference
 The docs can be found [here.](http://automatedmbam.readthedocs.io/)

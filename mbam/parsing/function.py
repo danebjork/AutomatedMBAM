@@ -37,7 +37,7 @@ class FunctionParser(BaseDiffParser):
         self.script += 'end # module'
 
     def write_f(self):
-        ret = 'function f{T<:Real}(ps::%s{T}, t)\n' % self.name
+        ret = 'function f(ps::%s{T}, t) where T <: Real\n' % self.name
         ret += "\t_inp = inp(ps, t)\n"
         ret += self.write_substitutions(self.mm.model_eqs['f'].sbs_sym_list)
         ### WRITE OWN EQUATION FUNCTION ###
@@ -46,7 +46,7 @@ class FunctionParser(BaseDiffParser):
 
     def write_bare_model(self):
         ret = ''
-        ret += 'zerodata = ParametricModels.OLSData("%s"_zero, zeros(ydata))\n' % self.name
+        ret += 'zerodata = ParametricModels.OLSData("%s"_zero, zero(ydata))\n' % self.name
         ret += 'bareparametricmodel = @ParametricModels.ParametricModel(zerodata, %s, ic, f, (_t,), Tuple{Symbol, Any}[])\n' % self.name
         ret += self.write_param_transforms(bare=True)
         ret += 'modelbare = Models.Model(bareparametricmodel)\n'
