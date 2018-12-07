@@ -1,6 +1,7 @@
 from sympy.printing import julia_code
 from sympy import sympify
 from .basediff import BaseDiffParser
+import logging
 
 class DAEParser(BaseDiffParser):
     """Used for parsing ODE models.
@@ -55,6 +56,7 @@ class DAEParser(BaseDiffParser):
             self.script += self.write_bare_model()
         self.script += 'xi = ParametricModels.xvalues(parametricmodel)\n'
         self.script += 'end # module'
+        self.script = self.find_replace_vectorized(self.script)
 
     def write_bare_model(self):
         ret = ''
@@ -83,6 +85,11 @@ class DAEParser(BaseDiffParser):
         for i, eq in enumerate(self.mm.model_eqs['ic'].sbs.dict['sbs']):
             eq = str(eq['sym']) + " = " + julia_code(sympify(eq['eq']).subs(self.icd_swap).subs(self.julia_swap))
             all_subs += (eq + "\n")
+
+        for i, eq in enumerate(self.mm.model_eqs['res'].sbs.dict['sbs']):
+            eq = str(eq['sym']) + " = " + julia_code(sympify(eq['eq']).subs(self.icd_swap).subs(self.julia_swap))
+            all_subs += ("\t" + eq + "\n")
+
         return all_subs
 
     def write_ic(self):
@@ -112,7 +119,7 @@ class DAEParser(BaseDiffParser):
     def write_res(self):
         """Specialty funciton for writing RES function.
         """
-        ret = 'function res{T<:Real}(ps::%s{T}, _t, _x, _dx, err)\n' % self.name
+        ret = 'function res(ps::%s{T}, _t, _x, _dx, err) where T <: Real\n' % self.name
         ret += self.write_substitutions(self.mm.model_eqs['res'].sbs_sym_list)
         ret += "\t_inp = inp(ps, _t)\n"
         ret += self.write_res_equations()

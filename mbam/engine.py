@@ -30,6 +30,7 @@ class Engine:
         self.curr_model = self.model
         self.curr_id = self.model_id
 
+    
     def run(self, printing=False):
         """Runs the geodesic, infers the limit, attempts to evaluate the limit.
         Continues to repeat the process until a failure.
@@ -41,6 +42,7 @@ class Engine:
         """
         for i in range(len(self.curr_model.model_ps)):
             self.curr_iter = Iteration(self.curr_model, self.curr_id, self.data_path)
+            self.curr_iter.write_model_script(self.curr_iter.julia.options)  # create model.jl file
             if self.curr_iter.auto_run():
                 print("PASS!")
                 self.curr_model = self.curr_iter.N_minus_1

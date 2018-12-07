@@ -41,6 +41,7 @@ class ODEParser(BaseDiffParser):
             self.script += self.write_bare_model()
         self.script += 'xi = ParametricModels.xvalues(parametricmodel)\n'
         self.script += 'end # module'
+        self.script = self.find_replace_vectorized(self.script)
 
     def write_bare_model(self):
         ret = ''

@@ -3,6 +3,7 @@ from sympy.printing import julia_code
 from sympy import Symbol
 import json
 import logging
+import re
 
 class BaseParser:
     """Parent class for all model parsers.
@@ -270,3 +271,10 @@ class BaseParser:
             kwargs += "]"
         self.logger.debug("Parsed kwargs = %s" %kwargs)
         return kwargs
+
+    def find_replace_vectorized(self,string):
+        d = {"\.\*": ' .* ', "\.\/": ' ./ ', "\.\^": ' .^ '}
+        for item in d.keys():
+            # sub item for item's paired value in string
+            string = re.sub(item, d[item], string)
+        return string
